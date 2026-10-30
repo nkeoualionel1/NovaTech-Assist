@@ -1,0 +1,2709 @@
+[
+  {
+    "sku": "NT-LAP-001",
+    "nom": "Nova Book 14 Air",
+    "marque": "Nova",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 799,
+    "prix_barre": null,
+    "stock": 24,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 1.3,
+    "description": "Ultraportable de 1,3 kg pour la bureautique, les études et les déplacements, avec une autonomie annoncée jusqu'à 14 heures.",
+    "caracteristiques": {
+      "processeur": "Intel Core Ultra 5 125U",
+      "memoire": "16 Go LPDDR5x soudée (non extensible)",
+      "stockage": "SSD NVMe 512 Go (1 emplacement M.2 2280)",
+      "ecran": "14 pouces IPS 1920x1200, 60 Hz, mat",
+      "carte_graphique": "Intel Graphics (intégrée)",
+      "batterie": "60 Wh",
+      "connectique": "2x USB-C Thunderbolt 4 (charge + DisplayPort), 1x USB-A 3.2, 1x HDMI 2.0, prise jack",
+      "sans_fil": "Wi-Fi 6E, Bluetooth 5.3",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY rétroéclairé"
+    }
+  },
+  {
+    "sku": "NT-LAP-002",
+    "nom": "Nova Book 16 Pro",
+    "marque": "Nova",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 1599,
+    "prix_barre": null,
+    "stock": 9,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 2.1,
+    "description": "Portable 16 pouces polyvalent pour la création et le jeu, avec écran 2,5K 120 Hz et carte graphique RTX 4060.",
+    "caracteristiques": {
+      "processeur": "Intel Core Ultra 7 155H",
+      "memoire": "32 Go DDR5-5600 (2 emplacements SO-DIMM, 64 Go max.)",
+      "stockage": "SSD NVMe 1 To (2 emplacements M.2 2280, dont 1 libre)",
+      "ecran": "16 pouces IPS 2560x1600, 120 Hz, 100 % sRGB",
+      "carte_graphique": "NVIDIA GeForce RTX 4060 Laptop 8 Go",
+      "batterie": "90 Wh",
+      "connectique": "1x USB-C Thunderbolt 4, 1x USB-C 3.2, 2x USB-A 3.2, HDMI 2.1, RJ45 2,5 GbE, lecteur SD, jack",
+      "sans_fil": "Wi-Fi 6E, Bluetooth 5.3",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY rétroéclairé avec pavé numérique"
+    }
+  },
+  {
+    "sku": "NT-LAP-003",
+    "nom": "Orbis Gamer 15",
+    "marque": "Orbis",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 1299,
+    "prix_barre": 1399,
+    "stock": 15,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 2.3,
+    "description": "PC portable gamer 15,6 pouces 144 Hz équipé d'un Ryzen 7 et d'une RTX 4060, idéal pour jouer en Full HD.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 7 7840HS",
+      "memoire": "16 Go DDR5-5600 (2 emplacements SO-DIMM, 64 Go max.)",
+      "stockage": "SSD NVMe 1 To (2 emplacements M.2 2280, dont 1 libre)",
+      "ecran": "15,6 pouces IPS 1920x1080, 144 Hz",
+      "carte_graphique": "NVIDIA GeForce RTX 4060 Laptop 8 Go",
+      "batterie": "76 Wh",
+      "connectique": "1x USB-C 3.2 Gen 2 (DisplayPort, sans Thunderbolt), 3x USB-A 3.2, HDMI 2.1, RJ45, jack",
+      "sans_fil": "Wi-Fi 6, Bluetooth 5.2",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY rétroéclairé RGB"
+    }
+  },
+  {
+    "sku": "NT-LAP-004",
+    "nom": "Orbis Gamer 17 Ultra",
+    "marque": "Orbis",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 2799,
+    "prix_barre": null,
+    "stock": 4,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 2.9,
+    "description": "Station de jeu portable haut de gamme 17,3 pouces QHD 240 Hz avec Core i9 et RTX 4080.",
+    "caracteristiques": {
+      "processeur": "Intel Core i9-14900HX",
+      "memoire": "32 Go DDR5-5600 (2 emplacements SO-DIMM, 64 Go max.)",
+      "stockage": "SSD NVMe 2 To (2 emplacements M.2 2280, dont 1 libre)",
+      "ecran": "17,3 pouces IPS 2560x1440, 240 Hz",
+      "carte_graphique": "NVIDIA GeForce RTX 4080 Laptop 12 Go",
+      "batterie": "99 Wh",
+      "connectique": "1x USB-C Thunderbolt 4, 1x USB-C 3.2, 3x USB-A 3.2, HDMI 2.1, RJ45 2,5 GbE, jack",
+      "sans_fil": "Wi-Fi 7, Bluetooth 5.4",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY mécanique optique RGB"
+    }
+  },
+  {
+    "sku": "NT-LAP-005",
+    "nom": "Altis Slim 13",
+    "marque": "Altis",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 549,
+    "prix_barre": null,
+    "stock": 31,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 1,
+    "poids_kg": 1.2,
+    "description": "Petit portable 13,3 pouces léger et abordable pour la navigation web, la bureautique et le streaming.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 5 7535U",
+      "memoire": "8 Go LPDDR5 soudée (non extensible)",
+      "stockage": "SSD NVMe 256 Go",
+      "ecran": "13,3 pouces IPS 1920x1080, 60 Hz",
+      "carte_graphique": "AMD Radeon 660M (intégrée)",
+      "batterie": "50 Wh",
+      "connectique": "1x USB-C 3.2 (charge + DisplayPort, sans Thunderbolt), 2x USB-A 3.2, HDMI 1.4, jack",
+      "sans_fil": "Wi-Fi 6, Bluetooth 5.2",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY non rétroéclairé"
+    }
+  },
+  {
+    "sku": "NT-LAP-006",
+    "nom": "Altis Slim 15",
+    "marque": "Altis",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 649,
+    "prix_barre": null,
+    "stock": 27,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 1,
+    "poids_kg": 1.7,
+    "description": "Portable 15,6 pouces avec pavé numérique et mémoire extensible, parfait pour un usage familial ou professionnel.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 5 7535HS",
+      "memoire": "16 Go DDR5-4800 (2 emplacements SO-DIMM, 32 Go max.)",
+      "stockage": "SSD NVMe 512 Go",
+      "ecran": "15,6 pouces IPS 1920x1080, 60 Hz",
+      "carte_graphique": "AMD Radeon 660M (intégrée)",
+      "batterie": "56 Wh",
+      "connectique": "1x USB-C 3.2 (DisplayPort), 2x USB-A 3.2, HDMI 2.0, RJ45, jack",
+      "sans_fil": "Wi-Fi 6, Bluetooth 5.2",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY avec pavé numérique"
+    }
+  },
+  {
+    "sku": "NT-LAP-007",
+    "nom": "Nova Book 14 Student",
+    "marque": "Nova",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 449,
+    "prix_barre": null,
+    "stock": 40,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 1.4,
+    "description": "Portable d'entrée de gamme pensé pour les étudiants : léger, silencieux et avec une bonne autonomie.",
+    "caracteristiques": {
+      "processeur": "Intel Core i3-1315U",
+      "memoire": "8 Go DDR4-3200 (1 emplacement SO-DIMM, 16 Go max.)",
+      "stockage": "SSD NVMe 256 Go",
+      "ecran": "14 pouces IPS 1920x1080, 60 Hz",
+      "carte_graphique": "Intel UHD Graphics (intégrée)",
+      "batterie": "47 Wh",
+      "connectique": "1x USB-C 3.2 (charge), 2x USB-A 3.2, HDMI 1.4, lecteur microSD, jack",
+      "sans_fil": "Wi-Fi 6, Bluetooth 5.1",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY"
+    }
+  },
+  {
+    "sku": "NT-LAP-008",
+    "nom": "Altis Creator 16 OLED",
+    "marque": "Altis",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 2199,
+    "prix_barre": null,
+    "stock": 6,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 1.9,
+    "description": "Portable pour créateurs avec écran OLED 3,2K calibré en usine (100 % DCI-P3) et RTX 4070.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 9 8945HS",
+      "memoire": "32 Go LPDDR5x soudée (non extensible)",
+      "stockage": "SSD NVMe 1 To (2 emplacements M.2 2280, dont 1 libre)",
+      "ecran": "16 pouces OLED 3200x2000, 120 Hz, 100 % DCI-P3",
+      "carte_graphique": "NVIDIA GeForce RTX 4070 Laptop 8 Go",
+      "batterie": "90 Wh",
+      "connectique": "1x USB4 (40 Gb/s, charge + DisplayPort), 1x USB-C 3.2, 2x USB-A 3.2, HDMI 2.1, lecteur SD Express, jack",
+      "sans_fil": "Wi-Fi 6E, Bluetooth 5.3",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY rétroéclairé"
+    }
+  },
+  {
+    "sku": "NT-LAP-009",
+    "nom": "Orbis Pro 14 Business",
+    "marque": "Orbis",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 1449,
+    "prix_barre": null,
+    "stock": 12,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 1.25,
+    "description": "Portable professionnel sécurisé avec lecteur d'empreintes, puce TPM 2.0 et garantie constructeur 3 ans sur site.",
+    "caracteristiques": {
+      "processeur": "Intel Core Ultra 7 155U",
+      "memoire": "32 Go DDR5-5600 (2 emplacements SO-DIMM, 64 Go max.)",
+      "stockage": "SSD NVMe 1 To",
+      "ecran": "14 pouces IPS 2240x1400, 60 Hz, antireflet",
+      "carte_graphique": "Intel Graphics (intégrée)",
+      "batterie": "65 Wh",
+      "connectique": "2x USB-C Thunderbolt 4, 2x USB-A 3.2, HDMI 2.1, RJ45, jack",
+      "sans_fil": "Wi-Fi 6E, Bluetooth 5.3, 4G LTE en option",
+      "systeme": "Windows 11 Pro",
+      "securite": "lecteur d'empreintes, webcam IR, TPM 2.0, cache webcam",
+      "clavier": "AZERTY rétroéclairé résistant aux éclaboussures"
+    }
+  },
+  {
+    "sku": "NT-LAP-010",
+    "nom": "Nova Book 13 Flip",
+    "marque": "Nova",
+    "categorie": "PC portable",
+    "sous_categorie": "Convertible 2-en-1",
+    "prix_ttc": 949,
+    "prix_barre": null,
+    "stock": 11,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 1.35,
+    "description": "Convertible 2-en-1 avec écran tactile rabattable à 360° et stylet actif inclus.",
+    "caracteristiques": {
+      "processeur": "Intel Core Ultra 5 125U",
+      "memoire": "16 Go LPDDR5x soudée (non extensible)",
+      "stockage": "SSD NVMe 512 Go",
+      "ecran": "13,3 pouces IPS tactile 1920x1200, 60 Hz, compatible stylet",
+      "carte_graphique": "Intel Graphics (intégrée)",
+      "batterie": "57 Wh",
+      "connectique": "2x USB-C Thunderbolt 4, 1x USB-A 3.2, jack",
+      "sans_fil": "Wi-Fi 6E, Bluetooth 5.3",
+      "systeme": "Windows 11 Famille",
+      "accessoires": "stylet actif inclus"
+    }
+  },
+  {
+    "sku": "NT-LAP-011",
+    "nom": "Orbis Gamer 16",
+    "marque": "Orbis",
+    "categorie": "PC portable",
+    "sous_categorie": "PC portable",
+    "prix_ttc": 1999,
+    "prix_barre": null,
+    "stock": 0,
+    "date_reapprovisionnement": "2026-11-20",
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 2.5,
+    "description": "PC portable gamer 16 pouces QHD+ 240 Hz avec Ryzen 9 et RTX 4070, châssis aluminium.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 9 7945HX",
+      "memoire": "32 Go DDR5-5200 (2 emplacements SO-DIMM, 64 Go max.)",
+      "stockage": "SSD NVMe 1 To (2 emplacements M.2 2280, dont 1 libre)",
+      "ecran": "16 pouces IPS 2560x1600, 240 Hz",
+      "carte_graphique": "NVIDIA GeForce RTX 4070 Laptop 8 Go",
+      "batterie": "90 Wh",
+      "connectique": "1x USB-C 3.2 (DisplayPort), 3x USB-A 3.2, HDMI 2.1, RJ45 2,5 GbE, jack",
+      "sans_fil": "Wi-Fi 6E, Bluetooth 5.3",
+      "systeme": "Windows 11 Famille",
+      "clavier": "AZERTY rétroéclairé RGB"
+    }
+  },
+  {
+    "sku": "NT-LAP-012",
+    "nom": "Altis Chromebook 14",
+    "marque": "Altis",
+    "categorie": "PC portable",
+    "sous_categorie": "Chromebook",
+    "prix_ttc": 299,
+    "prix_barre": null,
+    "stock": 18,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 1,
+    "poids_kg": 1.45,
+    "description": "Chromebook simple et rapide pour le web, les applications Google et les devoirs.",
+    "caracteristiques": {
+      "processeur": "MediaTek Kompanio 520",
+      "memoire": "4 Go LPDDR4x soudée (non extensible)",
+      "stockage": "64 Go eMMC",
+      "ecran": "14 pouces IPS 1920x1080",
+      "carte_graphique": "intégrée",
+      "batterie": "47 Wh",
+      "connectique": "2x USB-C (charge), 1x USB-A, lecteur microSD, jack",
+      "sans_fil": "Wi-Fi 6, Bluetooth 5.0",
+      "systeme": "ChromeOS (pas de Windows)"
+    }
+  },
+  {
+    "sku": "NT-DES-001",
+    "nom": "Nova Station Office",
+    "marque": "Nova",
+    "categorie": "PC fixe",
+    "sous_categorie": "PC fixe",
+    "prix_ttc": 649,
+    "prix_barre": null,
+    "stock": 14,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 6.5,
+    "description": "PC de bureau compact et silencieux pour la bureautique, assemblé et testé dans notre atelier de Saint-Priest.",
+    "caracteristiques": {
+      "processeur": "Intel Core i5-14400",
+      "carte_mere": "Kairo B760M DDR5",
+      "memoire": "16 Go DDR5-5600 (2x8 Go)",
+      "stockage": "SSD NVMe 512 Go",
+      "carte_graphique": "Intel UHD Graphics 730 (intégrée)",
+      "alimentation": "Voltis 550 W 80+ Bronze",
+      "boitier": "Forma Compact M",
+      "systeme": "Windows 11 Famille",
+      "connectique_facade": "2x USB-A, 1x USB-C, jack",
+      "sans_fil": "Wi-Fi 6, Bluetooth 5.2"
+    }
+  },
+  {
+    "sku": "NT-DES-002",
+    "nom": "Nova Station Gaming R5",
+    "marque": "Nova",
+    "categorie": "PC fixe",
+    "sous_categorie": "PC fixe",
+    "prix_ttc": 1099,
+    "prix_barre": null,
+    "stock": 8,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 9.0,
+    "description": "PC gamer d'entrée de gamme pour jouer en 1080p avec Ryzen 5 7600 et RTX 4060.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 5 7600",
+      "carte_mere": "Kairo B650M Pro",
+      "memoire": "16 Go DDR5-6000 (2x8 Go)",
+      "stockage": "SSD NVMe PCIe 4.0 1 To",
+      "carte_graphique": "Vertex GeForce RTX 4060 8 Go",
+      "alimentation": "Voltis 650 W 80+ Gold",
+      "boitier": "Forma Air ATX",
+      "systeme": "Windows 11 Famille"
+    }
+  },
+  {
+    "sku": "NT-DES-003",
+    "nom": "Nova Station Gaming R7 X3D",
+    "marque": "Nova",
+    "categorie": "PC fixe",
+    "sous_categorie": "PC fixe",
+    "prix_ttc": 1899,
+    "prix_barre": null,
+    "stock": 5,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 11.0,
+    "description": "PC gamer haut de gamme pour jouer en 1440p à haute fréquence avec Ryzen 7 7800X3D et RTX 4070 Super.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 7 7800X3D",
+      "refroidissement": "Polar AIO 240",
+      "carte_mere": "Kairo B650M Pro",
+      "memoire": "32 Go DDR5-6000 CL30 (2x16 Go)",
+      "stockage": "SSD NVMe PCIe 4.0 2 To",
+      "carte_graphique": "Vertex GeForce RTX 4070 Super 12 Go",
+      "alimentation": "Voltis 750 W 80+ Gold ATX 3.1",
+      "boitier": "Forma Glass RGB",
+      "systeme": "Windows 11 Famille"
+    }
+  },
+  {
+    "sku": "NT-DES-004",
+    "nom": "Nova Station Creator",
+    "marque": "Nova",
+    "categorie": "PC fixe",
+    "sous_categorie": "PC fixe",
+    "prix_ttc": 2799,
+    "prix_barre": null,
+    "stock": 3,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 14.5,
+    "description": "Station de travail pour le montage vidéo, la 3D et l'IA avec Core i7-14700K, RTX 4080 Super et 64 Go de RAM.",
+    "caracteristiques": {
+      "processeur": "Intel Core i7-14700K",
+      "refroidissement": "Polar AIO 360",
+      "carte_mere": "Kairo Z790 Elite",
+      "memoire": "64 Go DDR5-6000 (2x32 Go)",
+      "stockage": "SSD NVMe PCIe 4.0 2 To + HDD 4 To",
+      "carte_graphique": "Vertex GeForce RTX 4080 Super 16 Go",
+      "alimentation": "Voltis 850 W 80+ Gold ATX 3.1",
+      "boitier": "Forma Tower XL",
+      "systeme": "Windows 11 Pro"
+    }
+  },
+  {
+    "sku": "NT-DES-005",
+    "nom": "Nova Mini PC",
+    "marque": "Nova",
+    "categorie": "PC fixe",
+    "sous_categorie": "Mini PC",
+    "prix_ttc": 499,
+    "prix_barre": null,
+    "stock": 22,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.6,
+    "description": "Mini PC de 0,6 litre fixable derrière un écran (VESA), pour le bureau ou le salon.",
+    "caracteristiques": {
+      "processeur": "AMD Ryzen 7 7735HS",
+      "memoire": "16 Go DDR5-4800 (2 emplacements SO-DIMM, 64 Go max.)",
+      "stockage": "SSD NVMe 512 Go",
+      "carte_graphique": "AMD Radeon 680M (intégrée)",
+      "connectique": "2x HDMI 2.1, 1x USB4, 4x USB-A, RJ45 2,5 GbE",
+      "sans_fil": "Wi-Fi 6E, Bluetooth 5.2",
+      "systeme": "Windows 11 Pro",
+      "fixation": "support VESA 75/100 inclus"
+    }
+  },
+  {
+    "sku": "NT-DES-006",
+    "nom": "Nova Station Gaming i5",
+    "marque": "Nova",
+    "categorie": "PC fixe",
+    "sous_categorie": "PC fixe",
+    "prix_ttc": 1549,
+    "prix_barre": null,
+    "stock": 7,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 10.5,
+    "description": "PC gamer milieu de gamme pour la 1440p avec Core i5-14600K et Radeon RX 7800 XT 16 Go.",
+    "caracteristiques": {
+      "processeur": "Intel Core i5-14600K",
+      "refroidissement": "Polar Tower 120",
+      "carte_mere": "Kairo B760 DDR5 Gaming",
+      "memoire": "32 Go DDR5-6000 (2x16 Go)",
+      "stockage": "SSD NVMe PCIe 4.0 1 To",
+      "carte_graphique": "Vertex Radeon RX 7800 XT 16 Go",
+      "alimentation": "Voltis 750 W 80+ Gold ATX 3.1",
+      "boitier": "Forma Air ATX",
+      "systeme": "Windows 11 Famille"
+    }
+  },
+  {
+    "sku": "NT-MON-001",
+    "nom": "Lumen 22 FHD",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 89,
+    "prix_barre": null,
+    "stock": 35,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 2.6,
+    "description": "Écran 21,5 pouces Full HD économique pour la bureautique.",
+    "caracteristiques": {
+      "taille": "21,5 pouces",
+      "resolution": "1920x1080",
+      "dalle": "VA",
+      "frequence": "75 Hz",
+      "temps_reponse": "5 ms",
+      "connectique": "1x HDMI 1.4, 1x VGA",
+      "haut_parleurs": "non",
+      "vesa": "100x100",
+      "pied": "inclinable"
+    }
+  },
+  {
+    "sku": "NT-MON-002",
+    "nom": "Lumen 24 FHD Office",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 129,
+    "prix_barre": null,
+    "stock": 42,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 4.1,
+    "description": "Écran 24 pouces IPS Full HD avec pied réglable en hauteur, idéal pour le télétravail.",
+    "caracteristiques": {
+      "taille": "23,8 pouces",
+      "resolution": "1920x1080",
+      "dalle": "IPS",
+      "frequence": "75 Hz",
+      "temps_reponse": "5 ms",
+      "connectique": "1x HDMI 1.4, 1x DisplayPort 1.2",
+      "haut_parleurs": "2x 2 W",
+      "vesa": "100x100",
+      "pied": "réglable en hauteur, pivot, inclinaison",
+      "confort": "filtre lumière bleue, anti-scintillement"
+    }
+  },
+  {
+    "sku": "NT-MON-003",
+    "nom": "Lumen 24 FHD Gaming 165",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 179,
+    "prix_barre": null,
+    "stock": 26,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 3.8,
+    "description": "Écran gamer 24 pouces 165 Hz 1 ms, compatible FreeSync Premium et G-Sync.",
+    "caracteristiques": {
+      "taille": "23,8 pouces",
+      "resolution": "1920x1080",
+      "dalle": "IPS rapide",
+      "frequence": "165 Hz",
+      "temps_reponse": "1 ms (GtG)",
+      "connectique": "2x HDMI 2.0, 1x DisplayPort 1.4",
+      "synchronisation": "AMD FreeSync Premium, compatible NVIDIA G-Sync",
+      "vesa": "100x100",
+      "pied": "inclinable"
+    }
+  },
+  {
+    "sku": "NT-MON-004",
+    "nom": "Lumen 27 QHD Office",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 249,
+    "prix_barre": null,
+    "stock": 19,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 5.6,
+    "description": "Écran 27 pouces QHD IPS pour un espace de travail confortable et des textes nets.",
+    "caracteristiques": {
+      "taille": "27 pouces",
+      "resolution": "2560x1440",
+      "dalle": "IPS",
+      "frequence": "75 Hz",
+      "temps_reponse": "5 ms",
+      "connectique": "1x HDMI 2.0, 1x DisplayPort 1.2",
+      "haut_parleurs": "2x 3 W",
+      "vesa": "100x100",
+      "pied": "réglable en hauteur, pivot"
+    }
+  },
+  {
+    "sku": "NT-MON-005",
+    "nom": "Lumen 27 QHD Gaming 170",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 299,
+    "prix_barre": 329,
+    "stock": 21,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 5.9,
+    "description": "Écran gamer 27 pouces QHD 170 Hz, le meilleur compromis entre netteté et fluidité.",
+    "caracteristiques": {
+      "taille": "27 pouces",
+      "resolution": "2560x1440",
+      "dalle": "IPS rapide",
+      "frequence": "170 Hz",
+      "temps_reponse": "1 ms (GtG)",
+      "connectique": "2x HDMI 2.0, 1x DisplayPort 1.4",
+      "hdr": "HDR400",
+      "synchronisation": "FreeSync Premium, compatible G-Sync",
+      "vesa": "100x100",
+      "pied": "réglable en hauteur"
+    }
+  },
+  {
+    "sku": "NT-MON-006",
+    "nom": "Lumen 27 4K Pro USB-C",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 449,
+    "prix_barre": null,
+    "stock": 13,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 6.8,
+    "description": "Écran 27 pouces 4K calibré avec USB-C 65 W : un seul câble pour l'image, les données et la charge du portable.",
+    "caracteristiques": {
+      "taille": "27 pouces",
+      "resolution": "3840x2160",
+      "dalle": "IPS",
+      "frequence": "60 Hz",
+      "temps_reponse": "5 ms",
+      "connectique": "1x USB-C (DisplayPort Alt Mode + charge 65 W), 2x HDMI 2.0, 1x DisplayPort 1.4, hub 3x USB-A",
+      "couleurs": "99 % sRGB, 95 % DCI-P3, calibré en usine (Delta E < 2)",
+      "hdr": "HDR400",
+      "vesa": "100x100",
+      "pied": "réglable en hauteur, pivot, rotation"
+    }
+  },
+  {
+    "sku": "NT-MON-007",
+    "nom": "Lumen 32 4K Gaming 144",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 549,
+    "prix_barre": null,
+    "stock": 9,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 8.2,
+    "description": "Grand écran 32 pouces 4K 144 Hz avec HDMI 2.1, compatible PC et consoles nouvelle génération.",
+    "caracteristiques": {
+      "taille": "31,5 pouces",
+      "resolution": "3840x2160",
+      "dalle": "VA",
+      "frequence": "144 Hz",
+      "temps_reponse": "1 ms (MPRT)",
+      "connectique": "2x HDMI 2.1, 1x DisplayPort 1.4",
+      "hdr": "HDR600",
+      "vesa": "100x100",
+      "pied": "inclinable, hauteur réglable"
+    }
+  },
+  {
+    "sku": "NT-MON-008",
+    "nom": "Lumen 27 QHD OLED 240",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 799,
+    "prix_barre": null,
+    "stock": 0,
+    "date_reapprovisionnement": "2026-11-27",
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 6.0,
+    "description": "Écran OLED 27 pouces QHD 240 Hz au temps de réponse quasi instantané et aux noirs parfaits.",
+    "caracteristiques": {
+      "taille": "26,5 pouces",
+      "resolution": "2560x1440",
+      "dalle": "OLED",
+      "frequence": "240 Hz",
+      "temps_reponse": "0,03 ms (GtG)",
+      "connectique": "2x HDMI 2.1, 1x DisplayPort 1.4",
+      "hdr": "DisplayHDR True Black 400",
+      "garantie_marquage": "garantie 3 ans incluant le marquage (burn-in)",
+      "vesa": "100x100",
+      "pied": "réglable en hauteur"
+    }
+  },
+  {
+    "sku": "NT-MON-009",
+    "nom": "Lumen 34 UWQHD Curve",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 499,
+    "prix_barre": null,
+    "stock": 10,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 7.9,
+    "description": "Écran ultra-large incurvé 34 pouces 21:9 pour le multitâche et l'immersion en jeu.",
+    "caracteristiques": {
+      "taille": "34 pouces",
+      "resolution": "3440x1440",
+      "format": "21:9 incurvé 1500R",
+      "dalle": "VA",
+      "frequence": "165 Hz",
+      "temps_reponse": "1 ms (MPRT)",
+      "connectique": "2x HDMI 2.0, 1x DisplayPort 1.4, 1x USB-C (DP Alt Mode + 15 W)",
+      "vesa": "100x100",
+      "pied": "réglable en hauteur"
+    }
+  },
+  {
+    "sku": "NT-MON-010",
+    "nom": "Lumen 49 DQHD Super Wide",
+    "marque": "Lumen",
+    "categorie": "Écran",
+    "sous_categorie": "Écran",
+    "prix_ttc": 1099,
+    "prix_barre": null,
+    "stock": 3,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 14.0,
+    "description": "Écran 49 pouces 32:9 équivalent à deux écrans 27 pouces QHD côte à côte, 240 Hz.",
+    "caracteristiques": {
+      "taille": "49 pouces",
+      "resolution": "5120x1440",
+      "format": "32:9 incurvé 1000R",
+      "dalle": "VA",
+      "frequence": "240 Hz",
+      "temps_reponse": "1 ms (GtG)",
+      "connectique": "2x HDMI 2.1, 1x DisplayPort 1.4, 1x USB-C 90 W",
+      "hdr": "HDR1000",
+      "vesa": "100x100"
+    }
+  },
+  {
+    "sku": "NT-CPU-001",
+    "nom": "AMD Ryzen 5 5600",
+    "marque": "AMD",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 109,
+    "prix_barre": null,
+    "stock": 33,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Processeur 6 cœurs pour plateforme AM4, excellent rapport qualité/prix. Ventirad Wraith Stealth inclus.",
+    "caracteristiques": {
+      "socket": "AM4",
+      "coeurs_threads": "6 cœurs / 12 threads",
+      "frequence": "3,5 GHz (jusqu'à 4,4 GHz)",
+      "tdp": "65 W",
+      "graphique_integre": "non (carte graphique dédiée obligatoire)",
+      "ventirad_inclus": "oui (Wraith Stealth)",
+      "memoire_supportee": "DDR4"
+    },
+    "compatibilite": {
+      "socket": "AM4",
+      "memoire": [
+        "DDR4"
+      ],
+      "chipsets": [
+        "A520",
+        "B550"
+      ],
+      "ventirad_inclus": true,
+      "igpu": false
+    }
+  },
+  {
+    "sku": "NT-CPU-002",
+    "nom": "AMD Ryzen 5 7600",
+    "marque": "AMD",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 199,
+    "prix_barre": null,
+    "stock": 28,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Processeur 6 cœurs pour plateforme AM5 (DDR5 uniquement), avec puce graphique intégrée et ventirad inclus.",
+    "caracteristiques": {
+      "socket": "AM5",
+      "coeurs_threads": "6 cœurs / 12 threads",
+      "frequence": "3,8 GHz (jusqu'à 5,1 GHz)",
+      "tdp": "65 W",
+      "graphique_integre": "oui (AMD Radeon Graphics, usage basique)",
+      "ventirad_inclus": "oui (Wraith Stealth)",
+      "memoire_supportee": "DDR5 uniquement"
+    },
+    "compatibilite": {
+      "socket": "AM5",
+      "memoire": [
+        "DDR5"
+      ],
+      "chipsets": [
+        "B650",
+        "X670E"
+      ],
+      "ventirad_inclus": true,
+      "igpu": true
+    }
+  },
+  {
+    "sku": "NT-CPU-003",
+    "nom": "AMD Ryzen 7 7800X3D",
+    "marque": "AMD",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 399,
+    "prix_barre": null,
+    "stock": 0,
+    "date_reapprovisionnement": "2026-11-12",
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Le processeur de référence pour le jeu grâce à son cache 3D V-Cache de 96 Mo. Ventirad non inclus.",
+    "caracteristiques": {
+      "socket": "AM5",
+      "coeurs_threads": "8 cœurs / 16 threads",
+      "frequence": "4,2 GHz (jusqu'à 5,0 GHz)",
+      "cache": "96 Mo L3 (3D V-Cache)",
+      "tdp": "120 W",
+      "graphique_integre": "oui (AMD Radeon Graphics, usage basique)",
+      "ventirad_inclus": "non",
+      "memoire_supportee": "DDR5 uniquement"
+    },
+    "compatibilite": {
+      "socket": "AM5",
+      "memoire": [
+        "DDR5"
+      ],
+      "chipsets": [
+        "B650",
+        "X670E"
+      ],
+      "ventirad_inclus": false,
+      "igpu": true
+    }
+  },
+  {
+    "sku": "NT-CPU-004",
+    "nom": "AMD Ryzen 9 7950X",
+    "marque": "AMD",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 549,
+    "prix_barre": null,
+    "stock": 6,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Processeur 16 cœurs pour la création de contenu, le rendu 3D et le calcul intensif. Ventirad non inclus.",
+    "caracteristiques": {
+      "socket": "AM5",
+      "coeurs_threads": "16 cœurs / 32 threads",
+      "frequence": "4,5 GHz (jusqu'à 5,7 GHz)",
+      "tdp": "170 W",
+      "graphique_integre": "oui (AMD Radeon Graphics, usage basique)",
+      "ventirad_inclus": "non",
+      "refroidissement_conseille": "watercooling AIO 280/360 mm ou ventirad haut de gamme",
+      "memoire_supportee": "DDR5 uniquement"
+    },
+    "compatibilite": {
+      "socket": "AM5",
+      "memoire": [
+        "DDR5"
+      ],
+      "chipsets": [
+        "B650",
+        "X670E"
+      ],
+      "ventirad_inclus": false,
+      "igpu": true
+    }
+  },
+  {
+    "sku": "NT-CPU-005",
+    "nom": "Intel Core i3-14100",
+    "marque": "Intel",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 129,
+    "prix_barre": null,
+    "stock": 25,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Processeur 4 cœurs LGA1700 pour PC bureautique, avec graphique intégré et ventirad inclus.",
+    "caracteristiques": {
+      "socket": "LGA1700",
+      "coeurs_threads": "4 cœurs / 8 threads",
+      "frequence": "3,5 GHz (jusqu'à 4,7 GHz)",
+      "tdp": "60 W",
+      "graphique_integre": "oui (Intel UHD Graphics 730)",
+      "ventirad_inclus": "oui (Intel Laminar)",
+      "memoire_supportee": "DDR4 ou DDR5 (selon la carte mère)"
+    },
+    "compatibilite": {
+      "socket": "LGA1700",
+      "memoire": [
+        "DDR4",
+        "DDR5"
+      ],
+      "chipsets": [
+        "B760",
+        "Z790"
+      ],
+      "ventirad_inclus": true,
+      "igpu": true
+    }
+  },
+  {
+    "sku": "NT-CPU-006",
+    "nom": "Intel Core i5-14400F",
+    "marque": "Intel",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 179,
+    "prix_barre": null,
+    "stock": 30,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Processeur 10 cœurs LGA1700 pour le jeu. Version « F » : pas de graphique intégré, carte graphique obligatoire.",
+    "caracteristiques": {
+      "socket": "LGA1700",
+      "coeurs_threads": "10 cœurs (6P + 4E) / 16 threads",
+      "frequence": "2,5 GHz (jusqu'à 4,7 GHz)",
+      "tdp": "65 W",
+      "graphique_integre": "non (carte graphique dédiée obligatoire)",
+      "ventirad_inclus": "oui (Intel Laminar)",
+      "memoire_supportee": "DDR4 ou DDR5 (selon la carte mère)"
+    },
+    "compatibilite": {
+      "socket": "LGA1700",
+      "memoire": [
+        "DDR4",
+        "DDR5"
+      ],
+      "chipsets": [
+        "B760",
+        "Z790"
+      ],
+      "ventirad_inclus": true,
+      "igpu": false
+    }
+  },
+  {
+    "sku": "NT-CPU-007",
+    "nom": "Intel Core i5-14600K",
+    "marque": "Intel",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 279,
+    "prix_barre": null,
+    "stock": 17,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Processeur 14 cœurs débloqué pour l'overclocking (sur carte mère Z790). Ventirad non inclus.",
+    "caracteristiques": {
+      "socket": "LGA1700",
+      "coeurs_threads": "14 cœurs (6P + 8E) / 20 threads",
+      "frequence": "3,5 GHz (jusqu'à 5,3 GHz)",
+      "tdp": "125 W",
+      "graphique_integre": "oui (Intel UHD Graphics 770)",
+      "ventirad_inclus": "non",
+      "overclocking": "oui, sur chipset Z790",
+      "memoire_supportee": "DDR4 ou DDR5 (selon la carte mère)"
+    },
+    "compatibilite": {
+      "socket": "LGA1700",
+      "memoire": [
+        "DDR4",
+        "DDR5"
+      ],
+      "chipsets": [
+        "B760",
+        "Z790"
+      ],
+      "ventirad_inclus": false,
+      "igpu": true
+    }
+  },
+  {
+    "sku": "NT-CPU-008",
+    "nom": "Intel Core Ultra 7 265K",
+    "marque": "Intel",
+    "categorie": "Processeur",
+    "sous_categorie": "Processeur",
+    "prix_ttc": 399,
+    "prix_barre": null,
+    "stock": 9,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Processeur 20 cœurs de génération Arrow Lake sur le nouveau socket LGA1851 (incompatible LGA1700). Ventirad non inclus.",
+    "caracteristiques": {
+      "socket": "LGA1851",
+      "coeurs_threads": "20 cœurs (8P + 12E) / 20 threads",
+      "frequence": "3,9 GHz (jusqu'à 5,5 GHz)",
+      "tdp": "125 W",
+      "graphique_integre": "oui (Intel Graphics)",
+      "npu": "oui (IA intégrée)",
+      "ventirad_inclus": "non",
+      "memoire_supportee": "DDR5 uniquement"
+    },
+    "compatibilite": {
+      "socket": "LGA1851",
+      "memoire": [
+        "DDR5"
+      ],
+      "chipsets": [
+        "Z890"
+      ],
+      "ventirad_inclus": false,
+      "igpu": true
+    }
+  },
+  {
+    "sku": "NT-MOB-001",
+    "nom": "Kairo B650M Pro Wi-Fi",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 169,
+    "prix_barre": null,
+    "stock": 20,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère micro-ATX AM5 pour processeurs Ryzen 7000/8000/9000, DDR5, Wi-Fi 6E.",
+    "caracteristiques": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "format": "micro-ATX",
+      "memoire": "DDR5, 4 emplacements, 128 Go max., jusqu'à 6000 MT/s (EXPO)",
+      "stockage": "2x M.2 PCIe 4.0, 4x SATA",
+      "pcie": "1x PCIe 4.0 x16",
+      "reseau": "2,5 GbE, Wi-Fi 6E, Bluetooth 5.3",
+      "usb_arriere": "1x USB-C 3.2 Gen 2, 6x USB-A",
+      "sortie_video": "HDMI, DisplayPort (pour processeurs avec graphique intégré)"
+    },
+    "compatibilite": {
+      "socket": "AM5",
+      "memoire": "DDR5",
+      "format": "micro-ATX",
+      "slots_ram": 4,
+      "ram_max_go": 128,
+      "m2": 2
+    }
+  },
+  {
+    "sku": "NT-MOB-002",
+    "nom": "Kairo X670E Elite",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 349,
+    "prix_barre": null,
+    "stock": 7,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère ATX AM5 haut de gamme avec PCIe 5.0 pour la carte graphique et le SSD, Wi-Fi 7.",
+    "caracteristiques": {
+      "socket": "AM5",
+      "chipset": "X670E",
+      "format": "ATX",
+      "memoire": "DDR5, 4 emplacements, 192 Go max., jusqu'à 6400 MT/s (EXPO)",
+      "stockage": "4x M.2 (dont 1 PCIe 5.0), 6x SATA",
+      "pcie": "1x PCIe 5.0 x16, 1x PCIe 4.0 x4",
+      "reseau": "5 GbE, Wi-Fi 7, Bluetooth 5.4",
+      "usb_arriere": "2x USB4, 8x USB-A"
+    },
+    "compatibilite": {
+      "socket": "AM5",
+      "memoire": "DDR5",
+      "format": "ATX",
+      "slots_ram": 4,
+      "ram_max_go": 192,
+      "m2": 4
+    }
+  },
+  {
+    "sku": "NT-MOB-003",
+    "nom": "Kairo B650I Mini",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 229,
+    "prix_barre": null,
+    "stock": 6,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère mini-ITX AM5 pour configurations compactes, DDR5 et Wi-Fi 6E.",
+    "caracteristiques": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "format": "mini-ITX",
+      "memoire": "DDR5, 2 emplacements, 96 Go max.",
+      "stockage": "2x M.2 PCIe 4.0, 2x SATA",
+      "pcie": "1x PCIe 4.0 x16",
+      "reseau": "2,5 GbE, Wi-Fi 6E"
+    },
+    "compatibilite": {
+      "socket": "AM5",
+      "memoire": "DDR5",
+      "format": "mini-ITX",
+      "slots_ram": 2,
+      "ram_max_go": 96,
+      "m2": 2
+    }
+  },
+  {
+    "sku": "NT-MOB-004",
+    "nom": "Kairo B550 Plus",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 129,
+    "prix_barre": null,
+    "stock": 15,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère ATX AM4 fiable pour processeurs Ryzen 5000, mémoire DDR4.",
+    "caracteristiques": {
+      "socket": "AM4",
+      "chipset": "B550",
+      "format": "ATX",
+      "memoire": "DDR4, 4 emplacements, 128 Go max., jusqu'à 3200 MT/s (plus en overclocking)",
+      "stockage": "2x M.2 (1x PCIe 4.0, 1x PCIe 3.0), 6x SATA",
+      "pcie": "1x PCIe 4.0 x16",
+      "reseau": "Gigabit Ethernet (pas de Wi-Fi)"
+    },
+    "compatibilite": {
+      "socket": "AM4",
+      "memoire": "DDR4",
+      "format": "ATX",
+      "slots_ram": 4,
+      "ram_max_go": 128,
+      "m2": 2
+    }
+  },
+  {
+    "sku": "NT-MOB-005",
+    "nom": "Kairo A520M Basic",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 69,
+    "prix_barre": null,
+    "stock": 22,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère micro-ATX AM4 d'entrée de gamme, compatible Ryzen 5000 dès la sortie d'usine.",
+    "caracteristiques": {
+      "socket": "AM4",
+      "chipset": "A520",
+      "format": "micro-ATX",
+      "memoire": "DDR4, 2 emplacements, 64 Go max.",
+      "stockage": "1x M.2 PCIe 3.0, 4x SATA",
+      "pcie": "1x PCIe 3.0 x16",
+      "reseau": "Gigabit Ethernet (pas de Wi-Fi)",
+      "overclocking": "non"
+    },
+    "compatibilite": {
+      "socket": "AM4",
+      "memoire": "DDR4",
+      "format": "micro-ATX",
+      "slots_ram": 2,
+      "ram_max_go": 64,
+      "m2": 1
+    }
+  },
+  {
+    "sku": "NT-MOB-006",
+    "nom": "Kairo B760M DDR4",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 119,
+    "prix_barre": null,
+    "stock": 18,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère micro-ATX LGA1700 pour processeurs Intel 12e à 14e génération. Attention : mémoire DDR4 uniquement.",
+    "caracteristiques": {
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "format": "micro-ATX",
+      "memoire": "DDR4 uniquement, 4 emplacements, 128 Go max.",
+      "stockage": "2x M.2 PCIe 4.0, 4x SATA",
+      "pcie": "1x PCIe 4.0 x16",
+      "reseau": "2,5 GbE (pas de Wi-Fi)"
+    },
+    "compatibilite": {
+      "socket": "LGA1700",
+      "memoire": "DDR4",
+      "format": "micro-ATX",
+      "slots_ram": 4,
+      "ram_max_go": 128,
+      "m2": 2
+    }
+  },
+  {
+    "sku": "NT-MOB-007",
+    "nom": "Kairo B760 DDR5 Gaming",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 179,
+    "prix_barre": null,
+    "stock": 12,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère ATX LGA1700 pour processeurs Intel 12e à 14e génération, mémoire DDR5, Wi-Fi 6E.",
+    "caracteristiques": {
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "format": "ATX",
+      "memoire": "DDR5 uniquement, 4 emplacements, 192 Go max.",
+      "stockage": "3x M.2 PCIe 4.0, 4x SATA",
+      "pcie": "1x PCIe 4.0 x16",
+      "reseau": "2,5 GbE, Wi-Fi 6E, Bluetooth 5.3"
+    },
+    "compatibilite": {
+      "socket": "LGA1700",
+      "memoire": "DDR5",
+      "format": "ATX",
+      "slots_ram": 4,
+      "ram_max_go": 192,
+      "m2": 3
+    }
+  },
+  {
+    "sku": "NT-MOB-008",
+    "nom": "Kairo Z790 Elite",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 299,
+    "prix_barre": null,
+    "stock": 8,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère ATX LGA1700 haut de gamme permettant l'overclocking des processeurs Intel « K », DDR5.",
+    "caracteristiques": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "format": "ATX",
+      "memoire": "DDR5 uniquement, 4 emplacements, 192 Go max., jusqu'à 7200 MT/s (XMP)",
+      "stockage": "4x M.2 (dont 1 PCIe 5.0), 6x SATA",
+      "pcie": "1x PCIe 5.0 x16",
+      "reseau": "2,5 GbE, Wi-Fi 7, Bluetooth 5.4",
+      "overclocking": "oui (processeurs K)"
+    },
+    "compatibilite": {
+      "socket": "LGA1700",
+      "memoire": "DDR5",
+      "format": "ATX",
+      "slots_ram": 4,
+      "ram_max_go": 192,
+      "m2": 4
+    }
+  },
+  {
+    "sku": "NT-MOB-009",
+    "nom": "Kairo Z890 Pro",
+    "marque": "Kairo",
+    "categorie": "Carte mère",
+    "sous_categorie": "Carte mère",
+    "prix_ttc": 329,
+    "prix_barre": null,
+    "stock": 10,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte mère ATX LGA1851 pour processeurs Intel Core Ultra 200S, DDR5, Thunderbolt 4 et Wi-Fi 7.",
+    "caracteristiques": {
+      "socket": "LGA1851",
+      "chipset": "Z890",
+      "format": "ATX",
+      "memoire": "DDR5 uniquement, 4 emplacements, 192 Go max.",
+      "stockage": "4x M.2 (dont 1 PCIe 5.0), 4x SATA",
+      "pcie": "1x PCIe 5.0 x16",
+      "reseau": "5 GbE, Wi-Fi 7, Bluetooth 5.4",
+      "usb_arriere": "2x Thunderbolt 4, 6x USB-A"
+    },
+    "compatibilite": {
+      "socket": "LGA1851",
+      "memoire": "DDR5",
+      "format": "ATX",
+      "slots_ram": 4,
+      "ram_max_go": 192,
+      "m2": 4
+    }
+  },
+  {
+    "sku": "NT-RAM-001",
+    "nom": "Velox DDR5 32 Go (2x16) 6000 CL30",
+    "marque": "Velox",
+    "categorie": "Mémoire RAM",
+    "sous_categorie": "Mémoire RAM",
+    "prix_ttc": 119,
+    "prix_barre": null,
+    "stock": 38,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": "à vie",
+    "poids_kg": null,
+    "description": "Kit mémoire DDR5 32 Go optimisé pour Ryzen 7000/9000 (EXPO) et Intel (XMP 3.0).",
+    "caracteristiques": {
+      "type": "DDR5 DIMM (PC de bureau)",
+      "capacite": "32 Go (2x16 Go)",
+      "frequence": "6000 MT/s",
+      "latence": "CL30",
+      "tension": "1,35 V",
+      "profils": "AMD EXPO et Intel XMP 3.0",
+      "dissipateur": "oui, hauteur 34 mm"
+    },
+    "compatibilite": {
+      "type": "DDR5",
+      "format": "DIMM"
+    }
+  },
+  {
+    "sku": "NT-RAM-002",
+    "nom": "Velox DDR5 64 Go (2x32) 6000 CL30",
+    "marque": "Velox",
+    "categorie": "Mémoire RAM",
+    "sous_categorie": "Mémoire RAM",
+    "prix_ttc": 229,
+    "prix_barre": null,
+    "stock": 14,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": "à vie",
+    "poids_kg": null,
+    "description": "Kit mémoire DDR5 64 Go pour la création de contenu, la virtualisation et l'IA.",
+    "caracteristiques": {
+      "type": "DDR5 DIMM (PC de bureau)",
+      "capacite": "64 Go (2x32 Go)",
+      "frequence": "6000 MT/s",
+      "latence": "CL30",
+      "tension": "1,35 V",
+      "profils": "AMD EXPO et Intel XMP 3.0"
+    },
+    "compatibilite": {
+      "type": "DDR5",
+      "format": "DIMM"
+    }
+  },
+  {
+    "sku": "NT-RAM-003",
+    "nom": "Velox DDR5 16 Go (2x8) 5600 CL40",
+    "marque": "Velox",
+    "categorie": "Mémoire RAM",
+    "sous_categorie": "Mémoire RAM",
+    "prix_ttc": 59,
+    "prix_barre": null,
+    "stock": 26,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": "à vie",
+    "poids_kg": null,
+    "description": "Kit mémoire DDR5 16 Go d'entrée de gamme pour PC bureautique.",
+    "caracteristiques": {
+      "type": "DDR5 DIMM (PC de bureau)",
+      "capacite": "16 Go (2x8 Go)",
+      "frequence": "5600 MT/s",
+      "latence": "CL40",
+      "tension": "1,1 V"
+    },
+    "compatibilite": {
+      "type": "DDR5",
+      "format": "DIMM"
+    }
+  },
+  {
+    "sku": "NT-RAM-004",
+    "nom": "Velox DDR4 32 Go (2x16) 3200 CL16",
+    "marque": "Velox",
+    "categorie": "Mémoire RAM",
+    "sous_categorie": "Mémoire RAM",
+    "prix_ttc": 69,
+    "prix_barre": null,
+    "stock": 31,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": "à vie",
+    "poids_kg": null,
+    "description": "Kit mémoire DDR4 32 Go pour plateformes AM4 et Intel LGA1700 avec carte mère DDR4.",
+    "caracteristiques": {
+      "type": "DDR4 DIMM (PC de bureau)",
+      "capacite": "32 Go (2x16 Go)",
+      "frequence": "3200 MT/s",
+      "latence": "CL16",
+      "tension": "1,35 V",
+      "profils": "Intel XMP 2.0"
+    },
+    "compatibilite": {
+      "type": "DDR4",
+      "format": "DIMM"
+    }
+  },
+  {
+    "sku": "NT-RAM-005",
+    "nom": "Velox DDR4 16 Go (2x8) 3200 CL16",
+    "marque": "Velox",
+    "categorie": "Mémoire RAM",
+    "sous_categorie": "Mémoire RAM",
+    "prix_ttc": 39,
+    "prix_barre": null,
+    "stock": 44,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": "à vie",
+    "poids_kg": null,
+    "description": "Kit mémoire DDR4 16 Go pour donner un coup de jeune à un PC AM4 ou Intel DDR4.",
+    "caracteristiques": {
+      "type": "DDR4 DIMM (PC de bureau)",
+      "capacite": "16 Go (2x8 Go)",
+      "frequence": "3200 MT/s",
+      "latence": "CL16",
+      "tension": "1,35 V"
+    },
+    "compatibilite": {
+      "type": "DDR4",
+      "format": "DIMM"
+    }
+  },
+  {
+    "sku": "NT-RAM-006",
+    "nom": "Velox SO-DIMM DDR5 16 Go 5600",
+    "marque": "Velox",
+    "categorie": "Mémoire RAM",
+    "sous_categorie": "Mémoire RAM",
+    "prix_ttc": 45,
+    "prix_barre": null,
+    "stock": 29,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": "à vie",
+    "poids_kg": null,
+    "description": "Barrette SO-DIMM DDR5 16 Go pour PC portables et mini PC disposant d'un emplacement libre.",
+    "caracteristiques": {
+      "type": "DDR5 SO-DIMM (PC portable / mini PC)",
+      "capacite": "16 Go (1x16 Go)",
+      "frequence": "5600 MT/s",
+      "latence": "CL46",
+      "tension": "1,1 V",
+      "remarque": "inutile sur les portables à mémoire soudée"
+    },
+    "compatibilite": {
+      "type": "DDR5",
+      "format": "SO-DIMM"
+    }
+  },
+  {
+    "sku": "NT-RAM-007",
+    "nom": "Velox SO-DIMM DDR4 8 Go 3200",
+    "marque": "Velox",
+    "categorie": "Mémoire RAM",
+    "sous_categorie": "Mémoire RAM",
+    "prix_ttc": 25,
+    "prix_barre": null,
+    "stock": 37,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": "à vie",
+    "poids_kg": null,
+    "description": "Barrette SO-DIMM DDR4 8 Go pour PC portables DDR4.",
+    "caracteristiques": {
+      "type": "DDR4 SO-DIMM (PC portable)",
+      "capacite": "8 Go (1x8 Go)",
+      "frequence": "3200 MT/s",
+      "latence": "CL22",
+      "tension": "1,2 V"
+    },
+    "compatibilite": {
+      "type": "DDR4",
+      "format": "SO-DIMM"
+    }
+  },
+  {
+    "sku": "NT-GPU-001",
+    "nom": "Vertex GeForce RTX 4060 Dual 8G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 329,
+    "prix_barre": null,
+    "stock": 23,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique compacte et économe pour jouer en 1080p, avec DLSS 3 et ray tracing.",
+    "caracteristiques": {
+      "gpu": "NVIDIA GeForce RTX 4060",
+      "memoire": "8 Go GDDR6",
+      "consommation": "115 W",
+      "alimentation_conseillee": "550 W",
+      "connecteur_alim": "1x 8 broches PCIe",
+      "longueur": "245 mm",
+      "emplacements": "2 slots",
+      "sorties": "3x DisplayPort 1.4a, 1x HDMI 2.1a",
+      "interface": "PCIe 4.0 x8"
+    },
+    "compatibilite": {
+      "longueur_mm": 245,
+      "alim_min_w": 550,
+      "connecteur": "1x 8 broches"
+    }
+  },
+  {
+    "sku": "NT-GPU-002",
+    "nom": "Vertex GeForce RTX 4060 Ti 16G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 469,
+    "prix_barre": null,
+    "stock": 11,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique 16 Go pour le jeu en 1080p/1440p et les applications gourmandes en mémoire vidéo.",
+    "caracteristiques": {
+      "gpu": "NVIDIA GeForce RTX 4060 Ti",
+      "memoire": "16 Go GDDR6",
+      "consommation": "165 W",
+      "alimentation_conseillee": "550 W",
+      "connecteur_alim": "1x 8 broches PCIe",
+      "longueur": "285 mm",
+      "emplacements": "2,5 slots",
+      "sorties": "3x DisplayPort 1.4a, 1x HDMI 2.1a",
+      "interface": "PCIe 4.0 x8"
+    },
+    "compatibilite": {
+      "longueur_mm": 285,
+      "alim_min_w": 550,
+      "connecteur": "1x 8 broches"
+    }
+  },
+  {
+    "sku": "NT-GPU-003",
+    "nom": "Vertex GeForce RTX 4070 Super Twin 12G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 649,
+    "prix_barre": null,
+    "stock": 16,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique performante pour le jeu en 1440p à haute fréquence, avec DLSS 3.",
+    "caracteristiques": {
+      "gpu": "NVIDIA GeForce RTX 4070 Super",
+      "memoire": "12 Go GDDR6X",
+      "consommation": "220 W",
+      "alimentation_conseillee": "650 W",
+      "connecteur_alim": "1x 16 broches 12V-2x6 (adaptateur 2x 8 broches fourni)",
+      "longueur": "300 mm",
+      "emplacements": "2,5 slots",
+      "sorties": "3x DisplayPort 1.4a, 1x HDMI 2.1a",
+      "interface": "PCIe 4.0 x16"
+    },
+    "compatibilite": {
+      "longueur_mm": 300,
+      "alim_min_w": 650,
+      "connecteur": "16 broches (adaptateur fourni)"
+    }
+  },
+  {
+    "sku": "NT-GPU-004",
+    "nom": "Vertex GeForce RTX 4080 Super Triple 16G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 1099,
+    "prix_barre": null,
+    "stock": 0,
+    "date_reapprovisionnement": "2026-11-16",
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique très haut de gamme pour la 4K et la création 3D.",
+    "caracteristiques": {
+      "gpu": "NVIDIA GeForce RTX 4080 Super",
+      "memoire": "16 Go GDDR6X",
+      "consommation": "320 W",
+      "alimentation_conseillee": "750 W",
+      "connecteur_alim": "1x 16 broches 12V-2x6 (adaptateur 3x 8 broches fourni)",
+      "longueur": "340 mm",
+      "emplacements": "3,5 slots",
+      "sorties": "3x DisplayPort 1.4a, 1x HDMI 2.1a",
+      "interface": "PCIe 4.0 x16"
+    },
+    "compatibilite": {
+      "longueur_mm": 340,
+      "alim_min_w": 750,
+      "connecteur": "16 broches (adaptateur fourni)"
+    }
+  },
+  {
+    "sku": "NT-GPU-005",
+    "nom": "Vertex Radeon RX 7600 8G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 279,
+    "prix_barre": null,
+    "stock": 19,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique AMD abordable pour le jeu en 1080p.",
+    "caracteristiques": {
+      "gpu": "AMD Radeon RX 7600",
+      "memoire": "8 Go GDDR6",
+      "consommation": "165 W",
+      "alimentation_conseillee": "550 W",
+      "connecteur_alim": "1x 8 broches PCIe",
+      "longueur": "240 mm",
+      "emplacements": "2 slots",
+      "sorties": "3x DisplayPort 2.1, 1x HDMI 2.1",
+      "interface": "PCIe 4.0 x8"
+    },
+    "compatibilite": {
+      "longueur_mm": 240,
+      "alim_min_w": 550,
+      "connecteur": "1x 8 broches"
+    }
+  },
+  {
+    "sku": "NT-GPU-006",
+    "nom": "Vertex Radeon RX 7800 XT 16G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 529,
+    "prix_barre": null,
+    "stock": 13,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique AMD 16 Go, excellente pour la 1440p.",
+    "caracteristiques": {
+      "gpu": "AMD Radeon RX 7800 XT",
+      "memoire": "16 Go GDDR6",
+      "consommation": "263 W",
+      "alimentation_conseillee": "700 W",
+      "connecteur_alim": "2x 8 broches PCIe",
+      "longueur": "320 mm",
+      "emplacements": "2,5 slots",
+      "sorties": "2x DisplayPort 2.1, 2x HDMI 2.1",
+      "interface": "PCIe 4.0 x16"
+    },
+    "compatibilite": {
+      "longueur_mm": 320,
+      "alim_min_w": 700,
+      "connecteur": "2x 8 broches"
+    }
+  },
+  {
+    "sku": "NT-GPU-007",
+    "nom": "Vertex Radeon RX 7900 XTX 24G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 999,
+    "prix_barre": null,
+    "stock": 4,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique AMD haut de gamme 24 Go pour la 4K.",
+    "caracteristiques": {
+      "gpu": "AMD Radeon RX 7900 XTX",
+      "memoire": "24 Go GDDR6",
+      "consommation": "355 W",
+      "alimentation_conseillee": "850 W",
+      "connecteur_alim": "3x 8 broches PCIe",
+      "longueur": "345 mm",
+      "emplacements": "3 slots",
+      "sorties": "2x DisplayPort 2.1, 2x HDMI 2.1",
+      "interface": "PCIe 4.0 x16"
+    },
+    "compatibilite": {
+      "longueur_mm": 345,
+      "alim_min_w": 850,
+      "connecteur": "3x 8 broches"
+    }
+  },
+  {
+    "sku": "NT-GPU-008",
+    "nom": "Vertex Intel Arc B580 12G",
+    "marque": "Vertex",
+    "categorie": "Carte graphique",
+    "sous_categorie": "Carte graphique",
+    "prix_ttc": 289,
+    "prix_barre": null,
+    "stock": 10,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Carte graphique Intel 12 Go au très bon rapport qualité/prix pour la 1080p et la 1440p. Nécessite le Resizable BAR activé.",
+    "caracteristiques": {
+      "gpu": "Intel Arc B580",
+      "memoire": "12 Go GDDR6",
+      "consommation": "190 W",
+      "alimentation_conseillee": "600 W",
+      "connecteur_alim": "1x 8 broches PCIe",
+      "longueur": "272 mm",
+      "emplacements": "2 slots",
+      "sorties": "3x DisplayPort 2.1, 1x HDMI 2.1a",
+      "interface": "PCIe 4.0 x8",
+      "prerequis": "Resizable BAR activé dans le BIOS"
+    },
+    "compatibilite": {
+      "longueur_mm": 272,
+      "alim_min_w": 600,
+      "connecteur": "1x 8 broches"
+    }
+  },
+  {
+    "sku": "NT-STO-001",
+    "nom": "Stellar NVMe 1 To PCIe 4.0",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 79,
+    "prix_barre": null,
+    "stock": 52,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "SSD M.2 NVMe PCIe 4.0 rapide pour le système et les jeux.",
+    "caracteristiques": {
+      "format": "M.2 2280",
+      "interface": "PCIe 4.0 x4 NVMe",
+      "capacite": "1 To",
+      "lecture": "7000 Mo/s",
+      "ecriture": "6000 Mo/s",
+      "endurance": "600 TBW",
+      "compatibilite_ps5": "oui (avec dissipateur)"
+    },
+    "compatibilite": {
+      "format": "M.2 2280",
+      "interface": "PCIe 4.0"
+    }
+  },
+  {
+    "sku": "NT-STO-002",
+    "nom": "Stellar NVMe 2 To PCIe 4.0",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 139,
+    "prix_barre": null,
+    "stock": 34,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "SSD M.2 NVMe PCIe 4.0 2 To pour une grande bibliothèque de jeux ou de projets.",
+    "caracteristiques": {
+      "format": "M.2 2280",
+      "interface": "PCIe 4.0 x4 NVMe",
+      "capacite": "2 To",
+      "lecture": "7100 Mo/s",
+      "ecriture": "6600 Mo/s",
+      "endurance": "1200 TBW"
+    },
+    "compatibilite": {
+      "format": "M.2 2280",
+      "interface": "PCIe 4.0"
+    }
+  },
+  {
+    "sku": "NT-STO-003",
+    "nom": "Stellar NVMe 2 To PCIe 5.0",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 229,
+    "prix_barre": null,
+    "stock": 8,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "SSD PCIe 5.0 ultra-rapide. Nécessite un emplacement M.2 PCIe 5.0 pour exploiter tout son débit ; dissipateur fourni.",
+    "caracteristiques": {
+      "format": "M.2 2280",
+      "interface": "PCIe 5.0 x4 NVMe (rétrocompatible PCIe 4.0 à vitesse réduite)",
+      "capacite": "2 To",
+      "lecture": "12 400 Mo/s",
+      "ecriture": "11 800 Mo/s",
+      "endurance": "1200 TBW",
+      "dissipateur": "fourni, recommandé"
+    },
+    "compatibilite": {
+      "format": "M.2 2280",
+      "interface": "PCIe 5.0"
+    }
+  },
+  {
+    "sku": "NT-STO-004",
+    "nom": "Stellar NVMe 500 Go PCIe 3.0",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 39,
+    "prix_barre": null,
+    "stock": 47,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "SSD M.2 NVMe d'entrée de gamme pour remplacer un disque dur et accélérer un vieux PC.",
+    "caracteristiques": {
+      "format": "M.2 2280",
+      "interface": "PCIe 3.0 x4 NVMe",
+      "capacite": "500 Go",
+      "lecture": "3500 Mo/s",
+      "ecriture": "2300 Mo/s",
+      "endurance": "300 TBW"
+    },
+    "compatibilite": {
+      "format": "M.2 2280",
+      "interface": "PCIe 3.0"
+    }
+  },
+  {
+    "sku": "NT-STO-005",
+    "nom": "Stellar SATA 1 To 2,5\"",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 69,
+    "prix_barre": null,
+    "stock": 29,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "SSD SATA 2,5 pouces, idéal pour les PC et portables plus anciens sans emplacement M.2.",
+    "caracteristiques": {
+      "format": "2,5 pouces (7 mm)",
+      "interface": "SATA III 6 Gb/s",
+      "capacite": "1 To",
+      "lecture": "560 Mo/s",
+      "ecriture": "520 Mo/s",
+      "endurance": "600 TBW"
+    },
+    "compatibilite": {
+      "format": "2,5 pouces",
+      "interface": "SATA"
+    }
+  },
+  {
+    "sku": "NT-STO-006",
+    "nom": "Stellar HDD 4 To 3,5\"",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 99,
+    "prix_barre": null,
+    "stock": 21,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": null,
+    "description": "Disque dur 3,5 pouces 4 To pour le stockage de masse (photos, vidéos, sauvegardes).",
+    "caracteristiques": {
+      "format": "3,5 pouces",
+      "interface": "SATA III 6 Gb/s",
+      "capacite": "4 To",
+      "vitesse": "5400 tr/min",
+      "cache": "256 Mo"
+    },
+    "compatibilite": {
+      "format": "3,5 pouces",
+      "interface": "SATA"
+    }
+  },
+  {
+    "sku": "NT-STO-007",
+    "nom": "Stellar HDD 8 To 3,5\" NAS",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 189,
+    "prix_barre": null,
+    "stock": 9,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Disque dur 8 To conçu pour les NAS et un fonctionnement 24 h/24.",
+    "caracteristiques": {
+      "format": "3,5 pouces",
+      "interface": "SATA III 6 Gb/s",
+      "capacite": "8 To",
+      "vitesse": "7200 tr/min",
+      "cache": "256 Mo",
+      "usage": "NAS, fonctionnement 24/7"
+    },
+    "compatibilite": {
+      "format": "3,5 pouces",
+      "interface": "SATA"
+    }
+  },
+  {
+    "sku": "NT-STO-008",
+    "nom": "Stellar SSD externe 1 To USB-C",
+    "marque": "Stellar",
+    "categorie": "Stockage",
+    "sous_categorie": "Stockage",
+    "prix_ttc": 99,
+    "prix_barre": null,
+    "stock": 25,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 0.06,
+    "description": "SSD portable résistant aux chocs, compatible PC, Mac, consoles et smartphones.",
+    "caracteristiques": {
+      "format": "externe de poche",
+      "interface": "USB-C 3.2 Gen 2 (câbles USB-C et USB-A fournis)",
+      "capacite": "1 To",
+      "lecture": "1050 Mo/s",
+      "ecriture": "1000 Mo/s",
+      "resistance": "IP55, chutes jusqu'à 2 m"
+    }
+  },
+  {
+    "sku": "NT-PSU-001",
+    "nom": "Voltis 550 W 80+ Bronze",
+    "marque": "Voltis",
+    "categorie": "Alimentation",
+    "sous_categorie": "Alimentation",
+    "prix_ttc": 59,
+    "prix_barre": null,
+    "stock": 27,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "Alimentation ATX 550 W non modulaire pour PC bureautique ou gaming d'entrée de gamme.",
+    "caracteristiques": {
+      "puissance": "550 W",
+      "certification": "80 PLUS Bronze",
+      "format": "ATX",
+      "modularite": "non modulaire",
+      "connecteurs_pcie": "2x 8 broches (6+2)",
+      "ventilateur": "120 mm"
+    },
+    "compatibilite": {
+      "puissance_w": 550,
+      "format": "ATX",
+      "pcie_8pin": 2,
+      "connecteur_16pin": false
+    }
+  },
+  {
+    "sku": "NT-PSU-002",
+    "nom": "Voltis 650 W 80+ Gold",
+    "marque": "Voltis",
+    "categorie": "Alimentation",
+    "sous_categorie": "Alimentation",
+    "prix_ttc": 89,
+    "prix_barre": null,
+    "stock": 24,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 7,
+    "poids_kg": null,
+    "description": "Alimentation ATX 650 W semi-modulaire, silencieuse et efficace.",
+    "caracteristiques": {
+      "puissance": "650 W",
+      "certification": "80 PLUS Gold",
+      "format": "ATX",
+      "modularite": "semi-modulaire",
+      "connecteurs_pcie": "2x 8 broches (6+2)",
+      "ventilateur": "120 mm, mode semi-passif"
+    },
+    "compatibilite": {
+      "puissance_w": 650,
+      "format": "ATX",
+      "pcie_8pin": 2,
+      "connecteur_16pin": false
+    }
+  },
+  {
+    "sku": "NT-PSU-003",
+    "nom": "Voltis 750 W 80+ Gold ATX 3.1",
+    "marque": "Voltis",
+    "categorie": "Alimentation",
+    "sous_categorie": "Alimentation",
+    "prix_ttc": 119,
+    "prix_barre": null,
+    "stock": 19,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 10,
+    "poids_kg": null,
+    "description": "Alimentation 750 W entièrement modulaire ATX 3.1 avec câble natif 12V-2x6 pour les cartes graphiques récentes.",
+    "caracteristiques": {
+      "puissance": "750 W",
+      "certification": "80 PLUS Gold",
+      "format": "ATX 3.1",
+      "modularite": "entièrement modulaire",
+      "connecteurs_pcie": "1x 12V-2x6 (16 broches) natif + 3x 8 broches (6+2)",
+      "ventilateur": "135 mm, mode semi-passif"
+    },
+    "compatibilite": {
+      "puissance_w": 750,
+      "format": "ATX",
+      "pcie_8pin": 3,
+      "connecteur_16pin": true
+    }
+  },
+  {
+    "sku": "NT-PSU-004",
+    "nom": "Voltis 850 W 80+ Gold ATX 3.1",
+    "marque": "Voltis",
+    "categorie": "Alimentation",
+    "sous_categorie": "Alimentation",
+    "prix_ttc": 139,
+    "prix_barre": null,
+    "stock": 15,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 10,
+    "poids_kg": null,
+    "description": "Alimentation 850 W entièrement modulaire ATX 3.1 pour configurations haut de gamme.",
+    "caracteristiques": {
+      "puissance": "850 W",
+      "certification": "80 PLUS Gold",
+      "format": "ATX 3.1",
+      "modularite": "entièrement modulaire",
+      "connecteurs_pcie": "1x 12V-2x6 (16 broches) natif + 4x 8 broches (6+2)",
+      "ventilateur": "135 mm"
+    },
+    "compatibilite": {
+      "puissance_w": 850,
+      "format": "ATX",
+      "pcie_8pin": 4,
+      "connecteur_16pin": true
+    }
+  },
+  {
+    "sku": "NT-PSU-005",
+    "nom": "Voltis 1000 W 80+ Platinum ATX 3.1",
+    "marque": "Voltis",
+    "categorie": "Alimentation",
+    "sous_categorie": "Alimentation",
+    "prix_ttc": 209,
+    "prix_barre": null,
+    "stock": 6,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 10,
+    "poids_kg": null,
+    "description": "Alimentation 1000 W Platinum entièrement modulaire pour les stations de travail et les PC extrêmes.",
+    "caracteristiques": {
+      "puissance": "1000 W",
+      "certification": "80 PLUS Platinum",
+      "format": "ATX 3.1",
+      "modularite": "entièrement modulaire",
+      "connecteurs_pcie": "1x 12V-2x6 (16 broches) natif + 6x 8 broches (6+2)",
+      "ventilateur": "135 mm"
+    },
+    "compatibilite": {
+      "puissance_w": 1000,
+      "format": "ATX",
+      "pcie_8pin": 6,
+      "connecteur_16pin": true
+    }
+  },
+  {
+    "sku": "NT-PSU-006",
+    "nom": "Voltis SFX 750 W 80+ Gold",
+    "marque": "Voltis",
+    "categorie": "Alimentation",
+    "sous_categorie": "Alimentation",
+    "prix_ttc": 149,
+    "prix_barre": null,
+    "stock": 7,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 7,
+    "poids_kg": null,
+    "description": "Alimentation compacte SFX 750 W pour boîtiers mini-ITX.",
+    "caracteristiques": {
+      "puissance": "750 W",
+      "certification": "80 PLUS Gold",
+      "format": "SFX",
+      "modularite": "entièrement modulaire",
+      "connecteurs_pcie": "1x 12V-2x6 (16 broches) + 2x 8 broches (6+2)",
+      "ventilateur": "92 mm"
+    },
+    "compatibilite": {
+      "puissance_w": 750,
+      "format": "SFX",
+      "pcie_8pin": 2,
+      "connecteur_16pin": true
+    }
+  },
+  {
+    "sku": "NT-CAS-001",
+    "nom": "Forma Mini ITX",
+    "marque": "Forma",
+    "categorie": "Boîtier",
+    "sous_categorie": "Boîtier",
+    "prix_ttc": 99,
+    "prix_barre": null,
+    "stock": 9,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": null,
+    "description": "Boîtier compact de 12 litres pour cartes mères mini-ITX. Alimentation SFX obligatoire.",
+    "caracteristiques": {
+      "format_carte_mere": "mini-ITX",
+      "gpu_longueur_max": "320 mm",
+      "ventirad_hauteur_max": "65 mm",
+      "alimentation": "SFX uniquement",
+      "ventilateurs_inclus": "1x 92 mm",
+      "volume": "12 L"
+    },
+    "compatibilite": {
+      "cartes_meres": [
+        "mini-ITX"
+      ],
+      "gpu_max_mm": 320,
+      "ventirad_max_mm": 65,
+      "alim": "SFX",
+      "radiateur_max_mm": 0
+    }
+  },
+  {
+    "sku": "NT-CAS-002",
+    "nom": "Forma Compact M",
+    "marque": "Forma",
+    "categorie": "Boîtier",
+    "sous_categorie": "Boîtier",
+    "prix_ttc": 69,
+    "prix_barre": null,
+    "stock": 16,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": null,
+    "description": "Boîtier micro-ATX compact et sobre pour PC de bureau.",
+    "caracteristiques": {
+      "format_carte_mere": "micro-ATX, mini-ITX",
+      "gpu_longueur_max": "330 mm",
+      "ventirad_hauteur_max": "160 mm",
+      "alimentation": "ATX",
+      "ventilateurs_inclus": "1x 120 mm",
+      "radiateur_max": "240 mm (façade)"
+    },
+    "compatibilite": {
+      "cartes_meres": [
+        "micro-ATX",
+        "mini-ITX"
+      ],
+      "gpu_max_mm": 330,
+      "ventirad_max_mm": 160,
+      "alim": "ATX",
+      "radiateur_max_mm": 240
+    }
+  },
+  {
+    "sku": "NT-CAS-003",
+    "nom": "Forma Air ATX",
+    "marque": "Forma",
+    "categorie": "Boîtier",
+    "sous_categorie": "Boîtier",
+    "prix_ttc": 99,
+    "prix_barre": null,
+    "stock": 21,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": null,
+    "description": "Boîtier moyen tour ATX à façade maillée pour un excellent flux d'air, 3 ventilateurs inclus.",
+    "caracteristiques": {
+      "format_carte_mere": "ATX, micro-ATX, mini-ITX",
+      "gpu_longueur_max": "380 mm",
+      "ventirad_hauteur_max": "170 mm",
+      "alimentation": "ATX",
+      "ventilateurs_inclus": "3x 120 mm",
+      "radiateur_max": "360 mm (façade), 280 mm (dessus)"
+    },
+    "compatibilite": {
+      "cartes_meres": [
+        "ATX",
+        "micro-ATX",
+        "mini-ITX"
+      ],
+      "gpu_max_mm": 380,
+      "ventirad_max_mm": 170,
+      "alim": "ATX",
+      "radiateur_max_mm": 360
+    }
+  },
+  {
+    "sku": "NT-CAS-004",
+    "nom": "Forma Glass RGB",
+    "marque": "Forma",
+    "categorie": "Boîtier",
+    "sous_categorie": "Boîtier",
+    "prix_ttc": 129,
+    "prix_barre": null,
+    "stock": 14,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": null,
+    "description": "Boîtier moyen tour ATX en verre trempé avec 4 ventilateurs ARGB.",
+    "caracteristiques": {
+      "format_carte_mere": "ATX, micro-ATX, mini-ITX",
+      "gpu_longueur_max": "400 mm",
+      "ventirad_hauteur_max": "165 mm",
+      "alimentation": "ATX",
+      "ventilateurs_inclus": "4x 120 mm ARGB",
+      "radiateur_max": "360 mm (dessus et façade)"
+    },
+    "compatibilite": {
+      "cartes_meres": [
+        "ATX",
+        "micro-ATX",
+        "mini-ITX"
+      ],
+      "gpu_max_mm": 400,
+      "ventirad_max_mm": 165,
+      "alim": "ATX",
+      "radiateur_max_mm": 360
+    }
+  },
+  {
+    "sku": "NT-CAS-005",
+    "nom": "Forma Tower XL",
+    "marque": "Forma",
+    "categorie": "Boîtier",
+    "sous_categorie": "Boîtier",
+    "prix_ttc": 189,
+    "prix_barre": null,
+    "stock": 5,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": null,
+    "description": "Grand boîtier E-ATX pour stations de travail, watercooling 420 mm et nombreux disques.",
+    "caracteristiques": {
+      "format_carte_mere": "E-ATX, ATX, micro-ATX, mini-ITX",
+      "gpu_longueur_max": "450 mm",
+      "ventirad_hauteur_max": "180 mm",
+      "alimentation": "ATX",
+      "ventilateurs_inclus": "3x 140 mm",
+      "radiateur_max": "420 mm",
+      "baies": "6x 3,5 pouces"
+    },
+    "compatibilite": {
+      "cartes_meres": [
+        "E-ATX",
+        "ATX",
+        "micro-ATX",
+        "mini-ITX"
+      ],
+      "gpu_max_mm": 450,
+      "ventirad_max_mm": 180,
+      "alim": "ATX",
+      "radiateur_max_mm": 420
+    }
+  },
+  {
+    "sku": "NT-COO-001",
+    "nom": "Polar Tower 120",
+    "marque": "Polar",
+    "categorie": "Refroidissement",
+    "sous_categorie": "Refroidissement",
+    "prix_ttc": 39,
+    "prix_barre": null,
+    "stock": 33,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Ventirad tour 120 mm silencieux, pâte thermique incluse.",
+    "caracteristiques": {
+      "type": "ventirad tour",
+      "hauteur": "155 mm",
+      "tdp_max": "220 W",
+      "sockets": "AM4, AM5, LGA1700, LGA1851",
+      "bruit": "26 dB(A) max."
+    },
+    "compatibilite": {
+      "hauteur_mm": 155,
+      "sockets": [
+        "AM4",
+        "AM5",
+        "LGA1700",
+        "LGA1851"
+      ],
+      "tdp_w": 220
+    }
+  },
+  {
+    "sku": "NT-COO-002",
+    "nom": "Polar Low Profile 47",
+    "marque": "Polar",
+    "categorie": "Refroidissement",
+    "sous_categorie": "Refroidissement",
+    "prix_ttc": 45,
+    "prix_barre": null,
+    "stock": 12,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": null,
+    "description": "Ventirad extra-plat de 47 mm pour boîtiers mini-ITX.",
+    "caracteristiques": {
+      "type": "ventirad low-profile",
+      "hauteur": "47 mm",
+      "tdp_max": "95 W",
+      "sockets": "AM4, AM5, LGA1700, LGA1851"
+    },
+    "compatibilite": {
+      "hauteur_mm": 47,
+      "sockets": [
+        "AM4",
+        "AM5",
+        "LGA1700",
+        "LGA1851"
+      ],
+      "tdp_w": 95
+    }
+  },
+  {
+    "sku": "NT-COO-003",
+    "nom": "Polar AIO 240",
+    "marque": "Polar",
+    "categorie": "Refroidissement",
+    "sous_categorie": "Refroidissement",
+    "prix_ttc": 109,
+    "prix_barre": null,
+    "stock": 15,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "Watercooling tout-en-un 240 mm avec pompe silencieuse et éclairage ARGB.",
+    "caracteristiques": {
+      "type": "watercooling AIO",
+      "radiateur": "240 mm",
+      "tdp_max": "280 W",
+      "sockets": "AM4, AM5, LGA1700, LGA1851"
+    },
+    "compatibilite": {
+      "radiateur_mm": 240,
+      "sockets": [
+        "AM4",
+        "AM5",
+        "LGA1700",
+        "LGA1851"
+      ],
+      "tdp_w": 280
+    }
+  },
+  {
+    "sku": "NT-COO-004",
+    "nom": "Polar AIO 360",
+    "marque": "Polar",
+    "categorie": "Refroidissement",
+    "sous_categorie": "Refroidissement",
+    "prix_ttc": 139,
+    "prix_barre": null,
+    "stock": 10,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 5,
+    "poids_kg": null,
+    "description": "Watercooling tout-en-un 360 mm pour les processeurs les plus puissants.",
+    "caracteristiques": {
+      "type": "watercooling AIO",
+      "radiateur": "360 mm",
+      "tdp_max": "350 W",
+      "sockets": "AM4, AM5, LGA1700, LGA1851"
+    },
+    "compatibilite": {
+      "radiateur_mm": 360,
+      "sockets": [
+        "AM4",
+        "AM5",
+        "LGA1700",
+        "LGA1851"
+      ],
+      "tdp_w": 350
+    }
+  },
+  {
+    "sku": "NT-KEY-001",
+    "nom": "Keyra TKL Mech Red",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Clavier",
+    "prix_ttc": 79,
+    "prix_barre": null,
+    "stock": 22,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.8,
+    "description": "Clavier mécanique sans pavé numérique (TKL), switchs linéaires rouges, AZERTY, rétroéclairage blanc.",
+    "caracteristiques": {
+      "type": "clavier mécanique TKL",
+      "disposition": "AZERTY français",
+      "switchs": "linéaires rouges",
+      "connexion": "USB-C filaire",
+      "retroeclairage": "blanc"
+    }
+  },
+  {
+    "sku": "NT-KEY-002",
+    "nom": "Keyra Office Wireless",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Clavier",
+    "prix_ttc": 39,
+    "prix_barre": null,
+    "stock": 36,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.5,
+    "description": "Clavier sans fil complet et silencieux pour le bureau, jusqu'à 24 mois d'autonomie.",
+    "caracteristiques": {
+      "type": "clavier membrane complet",
+      "disposition": "AZERTY français",
+      "connexion": "dongle USB 2,4 GHz + Bluetooth (3 appareils)",
+      "alimentation": "2 piles AAA (fournies)"
+    }
+  },
+  {
+    "sku": "NT-KEY-003",
+    "nom": "Keyra 75 Pro Wireless",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Clavier",
+    "prix_ttc": 129,
+    "prix_barre": null,
+    "stock": 13,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.9,
+    "description": "Clavier mécanique 75 % sans fil, switchs remplaçables à chaud (hot-swap), ARGB.",
+    "caracteristiques": {
+      "type": "clavier mécanique 75 %",
+      "disposition": "AZERTY français",
+      "switchs": "tactiles, hot-swap",
+      "connexion": "2,4 GHz, Bluetooth, USB-C filaire",
+      "autonomie": "jusqu'à 200 h (RGB éteint)"
+    }
+  },
+  {
+    "sku": "NT-KEY-004",
+    "nom": "Keyra Combo Office",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Clavier",
+    "prix_ttc": 49,
+    "prix_barre": null,
+    "stock": 28,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.7,
+    "description": "Ensemble clavier + souris sans fil avec un seul récepteur USB.",
+    "caracteristiques": {
+      "type": "ensemble clavier + souris",
+      "disposition": "AZERTY français",
+      "connexion": "dongle USB 2,4 GHz unique",
+      "alimentation": "piles AAA et AA fournies"
+    }
+  },
+  {
+    "sku": "NT-MOU-001",
+    "nom": "Keyra Ergo Wireless",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Souris",
+    "prix_ttc": 49,
+    "prix_barre": null,
+    "stock": 24,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.1,
+    "description": "Souris ergonomique sans fil rechargeable, multi-appareils.",
+    "caracteristiques": {
+      "type": "souris ergonomique",
+      "capteur": "4000 dpi",
+      "connexion": "2,4 GHz + Bluetooth (3 appareils)",
+      "batterie": "rechargeable USB-C, 70 jours"
+    }
+  },
+  {
+    "sku": "NT-MOU-002",
+    "nom": "Keyra Strike Pro Wireless",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Souris",
+    "prix_ttc": 89,
+    "prix_barre": null,
+    "stock": 17,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.06,
+    "description": "Souris gaming sans fil ultralégère de 58 g, capteur 26 000 dpi.",
+    "caracteristiques": {
+      "type": "souris gaming",
+      "capteur": "26 000 dpi",
+      "poids": "58 g",
+      "connexion": "2,4 GHz (1 ms) + USB-C filaire",
+      "autonomie": "90 h"
+    }
+  },
+  {
+    "sku": "NT-MOU-003",
+    "nom": "Keyra Basic USB",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Souris",
+    "prix_ttc": 15,
+    "prix_barre": null,
+    "stock": 60,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.09,
+    "description": "Souris filaire simple et fiable pour le bureau.",
+    "caracteristiques": {
+      "type": "souris filaire",
+      "capteur": "1600 dpi",
+      "connexion": "USB-A filaire"
+    }
+  },
+  {
+    "sku": "NT-MOU-004",
+    "nom": "Keyra Vertical",
+    "marque": "Keyra",
+    "categorie": "Périphérique",
+    "sous_categorie": "Souris",
+    "prix_ttc": 39,
+    "prix_barre": null,
+    "stock": 15,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.12,
+    "description": "Souris verticale sans fil pour réduire les tensions au poignet.",
+    "caracteristiques": {
+      "type": "souris verticale",
+      "capteur": "2400 dpi",
+      "connexion": "2,4 GHz + Bluetooth",
+      "batterie": "rechargeable USB-C"
+    }
+  },
+  {
+    "sku": "NT-AUD-001",
+    "nom": "Sonik G7 Gaming",
+    "marque": "Sonik",
+    "categorie": "Périphérique",
+    "sous_categorie": "Casque",
+    "prix_ttc": 69,
+    "prix_barre": null,
+    "stock": 20,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.3,
+    "description": "Casque gaming filaire USB avec son surround virtuel 7.1 et micro antibruit détachable.",
+    "caracteristiques": {
+      "type": "casque gaming",
+      "connexion": "USB-A + jack 3,5 mm",
+      "son": "surround virtuel 7.1",
+      "micro": "détachable, antibruit"
+    }
+  },
+  {
+    "sku": "NT-AUD-002",
+    "nom": "Sonik Silence ANC",
+    "marque": "Sonik",
+    "categorie": "Périphérique",
+    "sous_categorie": "Casque",
+    "prix_ttc": 149,
+    "prix_barre": null,
+    "stock": 14,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.25,
+    "description": "Casque Bluetooth à réduction de bruit active, 40 heures d'autonomie.",
+    "caracteristiques": {
+      "type": "casque Bluetooth",
+      "reduction_bruit": "active (ANC)",
+      "connexion": "Bluetooth 5.3, jack 3,5 mm",
+      "autonomie": "40 h (ANC activé)",
+      "charge": "USB-C"
+    }
+  },
+  {
+    "sku": "NT-AUD-003",
+    "nom": "Sonik Office USB-C",
+    "marque": "Sonik",
+    "categorie": "Périphérique",
+    "sous_categorie": "Casque",
+    "prix_ttc": 49,
+    "prix_barre": null,
+    "stock": 30,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.15,
+    "description": "Micro-casque USB-C certifié pour les visioconférences (Teams, Zoom).",
+    "caracteristiques": {
+      "type": "micro-casque",
+      "connexion": "USB-C (adaptateur USB-A fourni)",
+      "micro": "antibruit, bouton sourdine"
+    }
+  },
+  {
+    "sku": "NT-CAM-001",
+    "nom": "Lumen Cam 1080p",
+    "marque": "Lumen",
+    "categorie": "Périphérique",
+    "sous_categorie": "Webcam",
+    "prix_ttc": 59,
+    "prix_barre": null,
+    "stock": 26,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.1,
+    "description": "Webcam Full HD 1080p 30 i/s avec micro stéréo et cache de confidentialité.",
+    "caracteristiques": {
+      "resolution": "1920x1080 à 30 i/s",
+      "micro": "stéréo",
+      "connexion": "USB-A",
+      "cache": "oui"
+    }
+  },
+  {
+    "sku": "NT-CAM-002",
+    "nom": "Lumen Cam 4K Pro",
+    "marque": "Lumen",
+    "categorie": "Périphérique",
+    "sous_categorie": "Webcam",
+    "prix_ttc": 149,
+    "prix_barre": null,
+    "stock": 8,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.13,
+    "description": "Webcam 4K avec autofocus, HDR et correction automatique de la lumière.",
+    "caracteristiques": {
+      "resolution": "3840x2160 à 30 i/s, 1080p à 60 i/s",
+      "autofocus": "oui",
+      "hdr": "oui",
+      "connexion": "USB-C"
+    }
+  },
+  {
+    "sku": "NT-NET-001",
+    "nom": "Netix Wi-Fi 7 BE9300",
+    "marque": "Netix",
+    "categorie": "Réseau",
+    "sous_categorie": "Routeur",
+    "prix_ttc": 249,
+    "prix_barre": null,
+    "stock": 0,
+    "date_reapprovisionnement": "2026-12-04",
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 0.9,
+    "description": "Routeur Wi-Fi 7 tri-bande avec ports 2,5 GbE pour la fibre très haut débit.",
+    "caracteristiques": {
+      "norme": "Wi-Fi 7 (802.11be)",
+      "debit": "jusqu'à 9300 Mb/s (tri-bande)",
+      "ports": "1x WAN 2,5 GbE, 1x LAN 2,5 GbE, 3x LAN 1 GbE",
+      "mesh": "compatible",
+      "usb": "1x USB 3.0"
+    }
+  },
+  {
+    "sku": "NT-NET-002",
+    "nom": "Netix Wi-Fi 6 AX3000",
+    "marque": "Netix",
+    "categorie": "Réseau",
+    "sous_categorie": "Routeur",
+    "prix_ttc": 89,
+    "prix_barre": null,
+    "stock": 23,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 0.5,
+    "description": "Routeur Wi-Fi 6 double bande pour une maison connectée.",
+    "caracteristiques": {
+      "norme": "Wi-Fi 6 (802.11ax)",
+      "debit": "jusqu'à 3000 Mb/s (double bande)",
+      "ports": "1x WAN 1 GbE, 4x LAN 1 GbE",
+      "mesh": "compatible"
+    }
+  },
+  {
+    "sku": "NT-NET-003",
+    "nom": "Netix Clé USB Wi-Fi 6",
+    "marque": "Netix",
+    "categorie": "Réseau",
+    "sous_categorie": "Adaptateur",
+    "prix_ttc": 29,
+    "prix_barre": null,
+    "stock": 41,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 2,
+    "poids_kg": 0.03,
+    "description": "Clé USB Wi-Fi 6 pour ajouter ou améliorer le Wi-Fi d'un PC de bureau.",
+    "caracteristiques": {
+      "norme": "Wi-Fi 6 (802.11ax)",
+      "debit": "jusqu'à 1800 Mb/s",
+      "connexion": "USB 3.0",
+      "os": "Windows 10/11"
+    }
+  },
+  {
+    "sku": "NT-NET-004",
+    "nom": "Netix Switch 8 ports Gigabit",
+    "marque": "Netix",
+    "categorie": "Réseau",
+    "sous_categorie": "Switch",
+    "prix_ttc": 39,
+    "prix_barre": null,
+    "stock": 19,
+    "date_reapprovisionnement": null,
+    "garantie_constructeur_ans": 3,
+    "poids_kg": 0.4,
+    "description": "Switch réseau 8 ports Gigabit Ethernet, boîtier métal, prêt à l'emploi.",
+    "caracteristiques": {
+      "ports": "8x RJ45 1 GbE",
+      "gestion": "non administrable (plug & play)",
+      "boitier": "métal, fixation murale"
+    }
+  }
+]
