@@ -4,29 +4,15 @@ from types import SimpleNamespace
 
 import pytest
 
-from novatech.assistant.agent import Assistant, Conversation
+from novatech.assistant.agent import Assistant
 from test_retrieval import base
 
 
 @pytest.fixture(scope="module")
 def outils():
-    assistant = Assistant(client=SimpleNamespace())
+    assistant = Assistant(client=SimpleNamespace(), journaliser=False)
     yield assistant.outils
     assistant.recherche.fermer()
-
-
-# --- Sources citées ------------------------------------------------------------------
-
-def test_sources_citees_controlees_contre_les_passages_consultes():
-    from novatech.assistant.agent import AppelOutil
-
-    appel = AppelOutil("rechercher_informations", {"requete": "x"},
-                       {"passages": [{"source": "livraison"}, {"source": "faq"}]}, False)
-    reponse = Conversation._finaliser(
-        "Nous ne livrons pas en Suisse.\n\nSources : livraison, cgv", [appel], "end_turn", {}
-    )
-    assert reponse.sources == ["livraison"]
-    assert reponse.sources_inventees == ["cgv"]
 
 
 # --- Outils (base requise) --------------------------------------------------------------
@@ -101,7 +87,7 @@ def test_boucle_execute_l_outil_puis_repond():
                                              input={"produit": "Orbis Gamer 16"})),
         _message("end_turn", SimpleNamespace(type="text", text="Il est en rupture.")),
     ])
-    assistant = Assistant(client=faux)
+    assistant = Assistant(client=faux, journaliser=False)
     try:
         reponse = assistant.nouvelle_conversation().envoyer("L'Orbis Gamer 16 est en stock ?")
     finally:

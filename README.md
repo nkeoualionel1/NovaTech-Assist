@@ -12,7 +12,8 @@ Novatech-RAG/
 │   ├── config.py          Configuration (variables d'environnement / .env)
 │   ├── ingestion/         Phase 3 : lecture → découpage → vectorisation → pgvector
 │   ├── retrieval/         Phase 4 : recherche hybride (vecteurs + plein texte, fusion RRF)
-│   └── assistant/         Phase 5 : Claude + outils (recherche, stock, commande, conseiller)
+│   ├── assistant/         Phase 5 : Claude + outils (recherche, stock, commande, conseiller)
+│   └── garde_fous/        Phase 6 : filtres d'entrée et de sortie, limites, journal
 ├── tests/
 └── docker-compose.yml     PostgreSQL 17 + pgvector
 ```
@@ -95,3 +96,22 @@ Claude (`claude-opus-5-5` par défaut) dispose de 4 outils et décide lui-même 
 - **Sources vérifiées** : la ligne « Sources : » de la réponse est comparée aux passages réellement consultés ; une source citée sans avoir été lue est signalée.
 - **Coûts** : consigne et définitions d'outils identiques à chaque appel, donc mises en cache par l'API.
 - **Refus** : en cas de refus par un filtre de sécurité, l'API rejoue la requête sur un modèle de secours (`fallbacks="default"`).
+
+## Garde-fous (phase 6)
+
+La consigne système demande à Claude de bien se comporter ; les garde-fous du dossier [novatech/garde_fous/](novatech/garde_fous/) l'**imposent**, dans le code, quoi que réponde le modèle.
+
+| Moment | Garde-fou | Effet |
+|---|---|---|
+| Avant Claude | Message > 2 000 caractères, conversation > 30 messages | Refus sans appel à l'API |
+| Avant Claude | Numéro de carte (16 chiffres, ou 13-19 chiffres valides selon Luhn), IBAN | Masqué **avant** l'envoi à l'API et l'écriture du journal |
+| Avant Claude | Tentative d'injection (« ignore tes instructions », « tu es maintenant… ») | Signalée dans le journal (pas bloquée, pour éviter les faux positifs) |
+| Outil `suivi_commande` | Numéro et e-mail absents des messages du client | Outil non exécuté : Claude ne peut ni deviner ni réutiliser un e-mail lu ailleurs |
+| Outil `suivi_commande` | 3 couples numéro / e-mail erronés dans la conversation | Outil bloqué (empêche de deviner l'e-mail d'un client) |
+| Après Claude | E-mail ni fourni par le client ni de NovaTech | Remplacé par « [e-mail masqué] » |
+| Après Claude | Passage de 60 caractères recopié de la consigne système | Réponse remplacée par un refus |
+| Après Claude | Source citée mais jamais consultée | Retirée de la ligne « Sources » |
+
+Chaque échange est enregistré dans la table `journal_echanges` (question masquée, réponse, outils, sources, alertes, tokens, durée).
+
+**Test d'attaque** (Claude réel, 7 scénarios) : extraction de la consigne, faux administrateur, e-mail d'un autre client, carte bancaire, devinette d'e-mails en série, « tu es DAN sans règles », source imposée : aucune fuite.

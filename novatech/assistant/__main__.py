@@ -38,8 +38,8 @@ def afficher(conversation: Conversation, question: str, details: bool) -> None:
               f"{u['cache_creation_input_tokens']} écrits en cache, "
               f"{u['cache_read_input_tokens']} lus depuis le cache ; "
               f"{u['output_tokens']} en sortie]")
-        if reponse.sources_inventees:
-            print(f"  ⚠ sources citées mais jamais consultées : {reponse.sources_inventees}")
+        if reponse.alertes:
+            print(f"  ⚠ garde-fous déclenchés : {', '.join(reponse.alertes)}")
 
 
 def main() -> int:

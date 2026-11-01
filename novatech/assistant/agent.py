@@ -1,22 +1,27 @@
 """Boucle d'agent : Claude décide quels outils appeler, le code les exécute, puis Claude répond.
 
 Boucle écrite à la main (plutôt que le Tool Runner, en bêta) pour garder la main sur chaque
-étape : journal des appels d'outils, contrôle des sources citées, limite du nombre de tours.
+étape : garde-fous avant/pendant/après l'appel au modèle, journal, limite du nombre de tours.
 """
 
 import re
+import time
+import uuid
 from dataclasses import dataclass, field
 
 import anthropic
 
+from .. import garde_fous as gf
 from ..config import Settings, get_settings
+from ..garde_fous.journal import Journal
 from ..retrieval import Recherche
 from .outils import DEFINITIONS, Outils, en_json
 from .prompt import consigne_systeme
 
 MAX_TOURS_OUTILS = 6  # au-delà, on arrête la boucle : protège des boucles infinies et des coûts
-LIGNE_SOURCES = re.compile(r"^\s*\**Sources?\s*:\**\s*(.+)$", re.IGNORECASE | re.MULTILINE)
 BETAS = ["server-side-fallback-2026-07-01"]
+NUMERO_COMMANDE = re.compile(r"CMD-\d{5}", re.IGNORECASE)
+CONTACT = "04 00 00 00 00 (du lundi au vendredi de 9h à 19h, le samedi de 10h à 17h)"
 
 
 @dataclass
@@ -31,8 +36,8 @@ class AppelOutil:
 class Reponse:
     texte: str
     sources: list[str] = field(default_factory=list)  # sources citées ET réellement consultées
-    sources_inventees: list[str] = field(default_factory=list)  # citées mais jamais consultées
     appels: list[AppelOutil] = field(default_factory=list)
+    alertes: list[str] = field(default_factory=list)  # déclenchements des garde-fous
     stop_reason: str | None = None
     usage: dict = field(default_factory=dict)
 
@@ -40,12 +45,14 @@ class Reponse:
 class Assistant:
     """Une instance par processus (le modèle d'embedding est long à charger)."""
 
-    def __init__(self, settings: Settings | None = None, client: anthropic.Anthropic | None = None):
+    def __init__(self, settings: Settings | None = None, client: anthropic.Anthropic | None = None,
+                 journaliser: bool = True):
         self.settings = settings or get_settings()
         self.client = client or anthropic.Anthropic()
         self.recherche = Recherche(self.settings)
         self.outils = Outils(self.recherche, self.settings.date_reference)
         self.systeme = consigne_systeme(self.settings.date_reference)
+        self.journal = Journal(self.recherche.conn) if journaliser else None
 
     def nouvelle_conversation(self) -> "Conversation":
         return Conversation(self)
@@ -71,10 +78,42 @@ class Conversation:
 
     def __init__(self, assistant: Assistant):
         self.assistant = assistant
+        self.id = uuid.uuid4().hex
         self.messages: list = []
+        self.textes_client: list[str] = []  # messages du client, après masquage
+        self.echecs_suivi_commande = 0
 
     def envoyer(self, question: str) -> Reponse:
+        debut = time.perf_counter()
+        reponse, question_masquee = self._traiter(question)
+        if self.assistant.journal:
+            duree = int((time.perf_counter() - debut) * 1000)
+            self.assistant.journal.enregistrer(self.id, question_masquee, reponse, duree)
+        return reponse
+
+    def _traiter(self, question: str) -> tuple[Reponse, str]:
+        # --- Avant le modèle -------------------------------------------------------------
+        if len(question) > gf.LONGUEUR_MAX_MESSAGE:
+            return Reponse(
+                texte=f"Votre message est trop long (plus de {gf.LONGUEUR_MAX_MESSAGE} caractères). "
+                      "Pouvez-vous le résumer en quelques phrases ?",
+                alertes=["message_trop_long"], stop_reason="garde_fou",
+            ), question[:200] + "…"
+        if len(self.textes_client) >= gf.MESSAGES_MAX_PAR_CONVERSATION:
+            return Reponse(
+                texte="Cette conversation a atteint sa longueur maximale. Pour continuer, ouvrez une "
+                      f"nouvelle conversation ou contactez un conseiller au {CONTACT}.",
+                alertes=["conversation_trop_longue"], stop_reason="garde_fou",
+            ), question
+
+        # Les données sensibles sont masquées AVANT d'être envoyées à l'API ou enregistrées.
+        question, alertes = gf.masquer_donnees_sensibles(question)
+        if gf.detecter_injection(question):
+            alertes.append("injection_suspectee")
+        self.textes_client.append(question)
         self.messages.append({"role": "user", "content": question})
+
+        # --- Boucle modèle / outils ----------------------------------------------------------
         appels: list[AppelOutil] = []
         usage = {"input_tokens": 0, "output_tokens": 0,
                  "cache_creation_input_tokens": 0, "cache_read_input_tokens": 0}
@@ -95,7 +134,7 @@ class Conversation:
             for bloc in message.content:
                 if bloc.type != "tool_use":
                     continue
-                resultat, erreur = self.assistant.outils.executer(bloc.name, bloc.input)
+                resultat, erreur = self._executer_outil(bloc.name, bloc.input, alertes)
                 appels.append(AppelOutil(bloc.name, bloc.input, resultat, erreur))
                 resultats.append({
                     "type": "tool_result",
@@ -107,33 +146,60 @@ class Conversation:
             self.messages.append({"role": "user", "content": resultats})
         else:
             return Reponse(
-                texte="Je n'arrive pas à finaliser ma réponse. Je vous propose de contacter un "
-                      "conseiller au 04 00 00 00 00 (du lundi au vendredi 9h-19h, samedi 10h-17h).",
-                appels=appels, stop_reason="max_tours", usage=usage,
-            )
+                texte=f"Je n'arrive pas à finaliser ma réponse. Je vous propose de contacter un "
+                      f"conseiller au {CONTACT}.",
+                appels=appels, alertes=alertes + ["max_tours"], stop_reason="max_tours", usage=usage,
+            ), question
 
+        # --- Après le modèle -----------------------------------------------------------------
         if message.stop_reason == "refusal":
             texte = ("Je ne peux pas répondre à cette demande. Puis-je vous aider sur une question "
                      "concernant NovaTech, vos commandes ou nos produits ?")
         else:
             texte = "\n".join(b.text for b in message.content if b.type == "text").strip()
-        return self._finaliser(texte, appels, message.stop_reason, usage)
 
-    @staticmethod
-    def _finaliser(texte: str, appels: list[AppelOutil], stop_reason, usage) -> Reponse:
         consultees = {
             p["source"]
             for a in appels if a.nom == "rechercher_informations" and not a.erreur
             for p in a.resultat["passages"]
         }
-        citees = []
-        if m := LIGNE_SOURCES.search(texte):
-            citees = [s.strip(" .*`[]") for s in m.group(1).split(",") if s.strip(" .*`[]")]
+        texte, alertes_sortie = gf.nettoyer_reponse(
+            texte, self.textes_client, self.assistant.systeme, consultees
+        )
         return Reponse(
             texte=texte,
-            sources=[s for s in citees if s in consultees],
-            sources_inventees=[s for s in citees if s not in consultees],
+            sources=gf.sources_citees(texte),
             appels=appels,
-            stop_reason=stop_reason,
+            alertes=alertes + alertes_sortie,
+            stop_reason=message.stop_reason,
             usage=usage,
-        )
+        ), question
+
+    def _executer_outil(self, nom: str, entree: dict, alertes: list[str]) -> tuple[dict, bool]:
+        """Contrôles propres à la conversation, puis exécution de l'outil."""
+        if nom == "suivi_commande":
+            refus = self._controler_suivi_commande(entree)
+            if refus:
+                alertes.append(refus[0])
+                return {"erreur": refus[1]}, True
+
+        resultat, erreur = self.assistant.outils.executer(nom, entree)
+        if nom == "suivi_commande" and erreur:
+            self.echecs_suivi_commande += 1
+        return resultat, erreur
+
+    def _controler_suivi_commande(self, entree: dict) -> tuple[str, str] | None:
+        if self.echecs_suivi_commande >= gf.ECHECS_MAX_SUIVI_COMMANDE:
+            return ("suivi_commande_bloque",
+                    "Trop de tentatives infructueuses dans cette conversation : n'essayez plus. "
+                    "Proposez au client de contacter un conseiller.")
+        # Le numéro et l'e-mail doivent venir du CLIENT, pas d'un document ni d'une supposition.
+        numeros = {n.upper() for t in self.textes_client for n in NUMERO_COMMANDE.findall(t)}
+        if str(entree.get("numero_commande", "")).strip().upper() not in numeros:
+            return ("numero_non_fourni_par_le_client",
+                    "Ce numéro de commande n'a pas été donné par le client : demandez-le-lui.")
+        if str(entree.get("email", "")).strip().lower() not in gf.emails_autorises(self.textes_client):
+            return ("email_non_fourni_par_le_client",
+                    "Cette adresse e-mail n'a pas été donnée par le client : demandez-lui l'e-mail "
+                    "utilisé lors de la commande.")
+        return None
