@@ -10,7 +10,7 @@ Assistant conversationnel pour une enseigne fictive de matériel informatique, *
 |---|---|
 | 1. Cadrage (cahier des charges) | ✅ |
 | 2. Création des données | ✅ |
-| 3. Pipeline d'ingestion | ⏳ à venir |
+| 3. Pipeline d'ingestion | ✅ (voir [README racine](../README.md)) |
 | 4. Recherche (retrieval) | ⏳ |
 | 5. Génération avec Claude | ⏳ |
 | 6. Garde-fous et sécurité | ⏳ |
