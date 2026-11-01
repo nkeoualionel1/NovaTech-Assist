@@ -11,7 +11,8 @@ from .filtres import (
 # Limites d'usage : protègent des abus et maîtrisent les coûts.
 LONGUEUR_MAX_MESSAGE = 2000  # caractères
 MESSAGES_MAX_PAR_CONVERSATION = 30
-ECHECS_MAX_SUIVI_COMMANDE = 3  # couples numéro / e-mail erronés avant blocage
+ECHECS_MAX_SUIVI_COMMANDE = 3  # couples numéro / e-mail erronés avant blocage…
+FENETRE_ECHECS_SUIVI_S = 3600  # …par client (IP) et par heure, toutes conversations confondues
 
 __all__ = [
     "LONGUEUR_MAX_MESSAGE", "MESSAGES_MAX_PAR_CONVERSATION", "ECHECS_MAX_SUIVI_COMMANDE",

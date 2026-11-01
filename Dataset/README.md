@@ -14,7 +14,7 @@ Assistant conversationnel pour une enseigne fictive de matériel informatique, *
 | 4. Recherche (retrieval) | ✅ |
 | 5. Génération avec Claude | ✅ |
 | 6. Garde-fous et sécurité | ✅ |
-| 7. Interface | ⏳ |
+| 7. Interface | ✅ |
 | 8. Évaluation | ⏳ |
 | 9–10. Industrialisation et déploiement | ⏳ |
 

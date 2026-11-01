@@ -2,10 +2,13 @@
 
 import logging
 import os
+import threading
 from functools import cached_property
 from pathlib import Path
 
 from ..config import Settings
+
+_VERROU = threading.Lock()
 
 
 def _modele_en_cache(nom: str) -> bool:
@@ -43,7 +46,9 @@ class Embedder:
 
     def _encode(self, textes: list[str], **kwargs) -> list[list[float]]:
         # Vecteurs normalisés : la similarité cosinus devient un simple produit scalaire.
-        vecteurs = self.model.encode(textes, normalize_embeddings=True, **kwargs)
+        # Verrou : l'API traite plusieurs requêtes en parallèle sur le même modèle.
+        with _VERROU:
+            vecteurs = self.model.encode(textes, normalize_embeddings=True, **kwargs)
         return vecteurs.tolist()
 
     def embed_passages(self, textes: list[str]) -> list[list[float]]:

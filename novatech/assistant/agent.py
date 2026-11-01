@@ -7,6 +7,7 @@ Boucle écrite à la main (plutôt que le Tool Runner, en bêta) pour garder la 
 import re
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 import anthropic
@@ -14,6 +15,7 @@ import anthropic
 from .. import garde_fous as gf
 from ..config import Settings, get_settings
 from ..garde_fous.journal import Journal
+from ..garde_fous.limites import Limiteur
 from ..retrieval import Recherche
 from .outils import DEFINITIONS, Outils, en_json
 from .prompt import consigne_systeme
@@ -53,9 +55,11 @@ class Assistant:
         self.outils = Outils(self.recherche, self.settings.date_reference)
         self.systeme = consigne_systeme(self.settings.date_reference)
         self.journal = Journal(self.recherche.conn) if journaliser else None
+        self.echecs_suivi = Limiteur(gf.ECHECS_MAX_SUIVI_COMMANDE, gf.FENETRE_ECHECS_SUIVI_S)
 
-    def nouvelle_conversation(self) -> "Conversation":
-        return Conversation(self)
+    def nouvelle_conversation(self, cle_client: str | None = None) -> "Conversation":
+        """cle_client : identifie le client entre conversations (adresse IP côté API)."""
+        return Conversation(self, cle_client)
 
     def _appeler_claude(self, messages: list) -> anthropic.types.beta.BetaMessage:
         return self.client.beta.messages.create(
@@ -76,14 +80,19 @@ class Assistant:
 class Conversation:
     """Historique d'un échange avec un client. Il n'est jamais modifié, seulement complété."""
 
-    def __init__(self, assistant: Assistant):
+    def __init__(self, assistant: Assistant, cle_client: str | None = None):
         self.assistant = assistant
         self.id = uuid.uuid4().hex
+        self.cle_client = cle_client or self.id
         self.messages: list = []
         self.textes_client: list[str] = []  # messages du client, après masquage
         self.echecs_suivi_commande = 0
+        self._notifier: Callable[[dict], None] = lambda evenement: None
 
-    def envoyer(self, question: str) -> Reponse:
+    def envoyer(self, question: str,
+                on_evenement: Callable[[dict], None] | None = None) -> Reponse:
+        """on_evenement est appelé à chaque appel d'outil (pour afficher la progression)."""
+        self._notifier = on_evenement or (lambda evenement: None)
         debut = time.perf_counter()
         reponse, question_masquee = self._traiter(question)
         if self.assistant.journal:
@@ -177,6 +186,7 @@ class Conversation:
 
     def _executer_outil(self, nom: str, entree: dict, alertes: list[str]) -> tuple[dict, bool]:
         """Contrôles propres à la conversation, puis exécution de l'outil."""
+        self._notifier({"type": "outil", "nom": nom})
         if nom == "suivi_commande":
             refus = self._controler_suivi_commande(entree)
             if refus:
@@ -186,10 +196,11 @@ class Conversation:
         resultat, erreur = self.assistant.outils.executer(nom, entree)
         if nom == "suivi_commande" and erreur:
             self.echecs_suivi_commande += 1
+            self.assistant.echecs_suivi.enregistrer(self.cle_client)
         return resultat, erreur
 
     def _controler_suivi_commande(self, entree: dict) -> tuple[str, str] | None:
-        if self.echecs_suivi_commande >= gf.ECHECS_MAX_SUIVI_COMMANDE:
+        if self.assistant.echecs_suivi.depasse(self.cle_client):
             return ("suivi_commande_bloque",
                     "Trop de tentatives infructueuses dans cette conversation : n'essayez plus. "
                     "Proposez au client de contacter un conseiller.")

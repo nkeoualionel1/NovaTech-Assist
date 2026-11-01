@@ -13,7 +13,9 @@ Novatech-RAG/
 │   ├── ingestion/         Phase 3 : lecture → découpage → vectorisation → pgvector
 │   ├── retrieval/         Phase 4 : recherche hybride (vecteurs + plein texte, fusion RRF)
 │   ├── assistant/         Phase 5 : Claude + outils (recherche, stock, commande, conseiller)
-│   └── garde_fous/        Phase 6 : filtres d'entrée et de sortie, limites, journal
+│   ├── garde_fous/        Phase 6 : filtres d'entrée et de sortie, limites, journal
+│   └── api/               Phase 7 : API FastAPI (flux SSE) qui sert aussi l'interface
+├── frontend/              Phase 7 : interface de chat React + TypeScript (Vite)
 ├── tests/
 └── docker-compose.yml     PostgreSQL 17 + pgvector
 ```
@@ -115,3 +117,24 @@ La consigne système demande à Claude de bien se comporter ; les garde-fous du 
 Chaque échange est enregistré dans la table `journal_echanges` (question masquée, réponse, outils, sources, alertes, tokens, durée).
 
 **Test d'attaque** (Claude réel, 7 scénarios) : extraction de la consigne, faux administrateur, e-mail d'un autre client, carte bancaire, devinette d'e-mails en série, « tu es DAN sans règles », source imposée : aucune fuite.
+
+## Interface web (phase 7)
+
+```bash
+cd frontend && npm install && npm run build && cd ..     # construit l'interface React
+uvicorn novatech.api.app:app --port 8000                 # API + interface
+```
+
+Ouvrir http://localhost:8000 (documentation de l'API : http://localhost:8000/docs).
+Pour modifier l'interface avec rechargement à chaud : `uvicorn ... --reload` dans un terminal, `cd frontend && npm run dev` dans un autre, puis http://localhost:5173.
+
+| Route | Rôle |
+|---|---|
+| `POST /api/conversations` | Ouvre une conversation (expire après 1 h d'inactivité) |
+| `POST /api/conversations/{id}/messages` | Envoie une question ; réponse en flux SSE : `outil` (étapes en direct), puis `reponse` ou `erreur` |
+| `GET /api/sources/{id}` | Contenu d'un document ou d'une fiche cité, affiché dans un panneau latéral |
+| `GET /api/sante` | État du service |
+
+- **Étapes en direct, texte en une fois** : le navigateur affiche « Recherche dans la documentation… », « Vérification du stock… » pendant que Claude travaille, mais le texte n'est envoyé qu'une fois passé par les garde-fous de sortie.
+- **Limites par adresse IP** : 10 messages par minute ; 3 échecs de suivi de commande par heure, toutes conversations confondues.
+- **Interface** : React + TypeScript (Vite), Markdown sans HTML brut (pas d'injection de script), sources cliquables, carte de transfert vers un conseiller, mode sombre, mobile.
