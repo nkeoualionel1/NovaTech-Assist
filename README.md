@@ -11,7 +11,8 @@ Novatech-RAG/
 ├── novatech/
 │   ├── config.py          Configuration (variables d'environnement / .env)
 │   ├── ingestion/         Phase 3 : lecture → découpage → vectorisation → pgvector
-│   └── retrieval/         Phase 4 : recherche hybride (vecteurs + plein texte, fusion RRF)
+│   ├── retrieval/         Phase 4 : recherche hybride (vecteurs + plein texte, fusion RRF)
+│   └── assistant/         Phase 5 : Claude + outils (recherche, stock, commande, conseiller)
 ├── tests/
 └── docker-compose.yml     PostgreSQL 17 + pgvector
 ```
@@ -70,3 +71,27 @@ Résultats sur les 61 questions du jeu de test dont la source est indexée :
 | **Hybride** | **79 %** | **95 %** | **0,86** |
 
 *Succès@k : la bonne source est parmi les k premiers passages. MRR : moyenne de 1/rang de la première bonne source.*
+
+## Assistant avec Claude (phase 5)
+
+Ajoutez votre clé dans `.env` (`ANTHROPIC_API_KEY=...`), puis :
+
+```bash
+python -m novatech.ingestion --magasin-seulement    # charge les tables produits et commandes
+python -m novatech.assistant --details              # conversation dans le terminal
+python -m novatech.assistant "Livrez-vous en Suisse ?"
+```
+
+Claude (`claude-opus-5-5` par défaut) dispose de 4 outils et décide lui-même lesquels appeler :
+
+| Outil | Rôle | Règle appliquée dans le code |
+|---|---|---|
+| `rechercher_informations` | Recherche hybride (phase 4), avec filtre documents / produits / catégorie | — |
+| `verifier_stock` | Disponibilité en temps réel, date de réapprovisionnement | Le stock n'est jamais lu dans les fiches indexées |
+| `suivi_commande` | Statut, transporteur, retour, remboursement | Exige numéro **et** e-mail ; même réponse si la commande n'existe pas ou si l'e-mail est faux ; adresse et téléphone jamais renvoyés |
+| `transferer_conseiller` | Crée une demande (`DEM-…`) et indique si les conseillers sont joignables | — |
+
+- **Boucle d'agent** écrite à la main ([agent.py](novatech/assistant/agent.py)) : 6 tours d'outils au maximum, historique jamais modifié (seulement complété).
+- **Sources vérifiées** : la ligne « Sources : » de la réponse est comparée aux passages réellement consultés ; une source citée sans avoir été lue est signalée.
+- **Coûts** : consigne et définitions d'outils identiques à chaque appel, donc mises en cache par l'API.
+- **Refus** : en cas de refus par un filtre de sécurité, l'API rejoue la requête sur un modèle de secours (`fallbacks="default"`).

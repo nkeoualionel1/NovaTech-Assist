@@ -24,10 +24,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Ingestion des données NovaTech")
     parser.add_argument("--dry-run", action="store_true", help="ne charge ni le modèle ni la base")
     parser.add_argument("--export", type=Path, help="écrit les passages dans un fichier JSONL")
+    parser.add_argument("--magasin-seulement", action="store_true",
+                        help="recharge seulement les tables produits/commandes (sans vectorisation)")
     args = parser.parse_args()
 
     settings = get_settings()
     debut = time.perf_counter()
+
+    if args.magasin_seulement:
+        return _charger_magasin(settings)
 
     chunks = charger_documents(settings.data_dir / "documents")
     chunks += charger_produits(settings.data_dir / "catalogue" / "produits.json")
@@ -62,6 +67,14 @@ def main() -> int:
     print("Écriture dans PostgreSQL…")
     reconstruire_index(settings.database_url, chunks, vecteurs, settings.embedding_model)
     print(f"Terminé en {time.perf_counter() - debut:.0f} s : {len(chunks)} passages indexés.")
+    return _charger_magasin(settings)
+
+
+def _charger_magasin(settings) -> int:
+    from .magasin import charger_tables_magasin
+
+    nb_produits, nb_commandes = charger_tables_magasin(settings.database_url, settings.data_dir)
+    print(f"Tables magasin chargées : {nb_produits} produits, {nb_commandes} commandes.")
     return 0
 
 

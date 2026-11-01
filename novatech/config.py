@@ -2,6 +2,7 @@
 
 import os
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -18,10 +19,18 @@ class Settings:
     # Les modèles E5 attendent un préfixe différent pour les passages et les questions.
     passage_prefix: str
     query_prefix: str
+    claude_model: str
+    claude_effort: str
+    # Le jeu de données est figé au 30/10/2026 : l'assistant raisonne à cette date
+    # (« ma commande arrive quand ? »). En production, on utiliserait l'heure réelle.
+    date_reference: datetime
 
 
 def get_settings() -> Settings:
     return Settings(
+        claude_model=os.getenv("CLAUDE_MODEL", "claude-opus-5-5"),
+        claude_effort=os.getenv("CLAUDE_EFFORT", "medium"),
+        date_reference=datetime.fromisoformat(os.getenv("DATE_REFERENCE", "2026-10-30T12:00")),
         data_dir=Path(os.getenv("DATA_DIR", ROOT / "Dataset" / "data")),
         database_url=os.getenv(
             "DATABASE_URL", "postgresql://novatech:novatech@localhost:5432/novatech"
