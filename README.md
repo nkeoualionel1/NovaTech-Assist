@@ -14,6 +14,7 @@ Novatech-RAG/
 │   ├── retrieval/         Phase 4 : recherche hybride (vecteurs + plein texte, fusion RRF)
 │   ├── assistant/         Phase 5 : Claude + outils (recherche, stock, commande, conseiller)
 │   ├── garde_fous/        Phase 6 : filtres d'entrée et de sortie, limites, journal
+│   ├── evaluation/        Phase 8 : runner et notation (contrôles automatiques + juge Claude)
 │   └── api/               Phase 7 : API FastAPI (flux SSE) qui sert aussi l'interface
 ├── frontend/              Phase 7 : interface de chat React + TypeScript (Vite)
 ├── tests/
@@ -138,3 +139,26 @@ Pour modifier l'interface avec rechargement à chaud : `uvicorn ... --reload` da
 - **Étapes en direct, texte en une fois** : le navigateur affiche « Recherche dans la documentation… », « Vérification du stock… » pendant que Claude travaille, mais le texte n'est envoyé qu'une fois passé par les garde-fous de sortie.
 - **Limites par adresse IP** : 10 messages par minute ; 3 échecs de suivi de commande par heure, toutes conversations confondues.
 - **Interface** : React + TypeScript (Vite), Markdown sans HTML brut (pas d'injection de script), sources cliquables, carte de transfert vers un conseiller, mode sombre, mobile.
+
+## Évaluation (phase 8)
+
+```bash
+python -m novatech.evaluation --controle-juge         # le juge doit rejeter 3 mauvaises réponses
+python -m novatech.evaluation                         # 40 questions (variante « baseline »)
+python -m novatech.evaluation --variant v1 --model claude-opus-5-5   # comparer un autre réglage
+node <skill claude-api>/shared/evals/report/build-report-lite.mjs .claude/hillclimb/assistant/
+```
+
+- **40 questions** ([sélection](Dataset/evaluation/selection_40.json), [détail](.claude/hillclimb/assistant/cas_40.md)) : tous les cas outils, sécurité, transferts et clarification, plus 23 questions documentaires réparties sur 8 catégories, en privilégiant les pièges.
+- **Notation** ([notation.py](novatech/evaluation/notation.py)) : contrôles automatiques (bon outil, bonne source citée, aucun élément interdit) et juge **Claude Opus 5.5** en sortie structurée (éléments clés présents, fidélité aux sources). Une question est **réussie** si tous les critères passent, avec au moins 75 % des éléments clés.
+- **Runner** ([novatech/evaluation/](novatech/evaluation/)) : appelle le vrai point d'entrée de l'assistant, en parallèle ; écrit chaque résultat au fil de l'eau (reprise après plantage) ; erreurs d'API, délais dépassés et modèle substitué rangés à part dans `errors.jsonl`, jamais comptés comme des échecs ; harnais verrouillé par empreinte (`--approve-harness` après toute modification de la notation ou des questions).
+
+**Score de référence** (Claude Sonnet 5.5, 1 passage, 1er novembre 2026) :
+
+| Réussite | Couverture | Fidélité | Bon outil | Bonne source | Sans interdit | Latence médiane | Coût |
+|---|---|---|---|---|---|---|---|
+| **40 / 40** | 100 % | 100 % | 17 / 17 | 22 / 22 | 9 / 9 | 4,2 s | 0,017 $ par question (+ 0,033 $ de juge) |
+
+Avec 40 questions, un 40/40 garantit une réussite réelle d'au moins ~91 % (intervalle de confiance à 95 %). L'évaluation est **saturée** : pour départager deux réglages, il faudra ajouter des questions plus difficiles.
+
+Corrections de la notation faites pendant la mise au point : le juge reçoit la consigne et la description des outils de l'assistant (sinon il prenait pour inventées des informations que l'assistant connaît légitimement) ; pour un transfert, demander d'abord le numéro de commande et l'e-mail est accepté.

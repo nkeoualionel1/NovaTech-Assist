@@ -42,6 +42,7 @@ class Reponse:
     alertes: list[str] = field(default_factory=list)  # déclenchements des garde-fous
     stop_reason: str | None = None
     usage: dict = field(default_factory=dict)
+    modele: str | None = None  # modèle qui a réellement répondu (peut différer en cas de repli)
 
 
 class Assistant:
@@ -182,6 +183,7 @@ class Conversation:
             alertes=alertes + alertes_sortie,
             stop_reason=message.stop_reason,
             usage=usage,
+            modele=getattr(message, "model", None),
         ), question
 
     def _executer_outil(self, nom: str, entree: dict, alertes: list[str]) -> tuple[dict, bool]:

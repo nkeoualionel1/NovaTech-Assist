@@ -6,3 +6,10 @@ __pycache__/
 chunks.jsonl
 frontend/node_modules/
 frontend/dist/
+
+# Évaluation : sorties régénérables
+**/traces/
+.claude/hillclimb/**/report.html
+.claude/hillclimb/**/state.json
+.claude/hillclimb/**/trajectory/
+.claude/hillclimb/**/results.avant_renotation_*.jsonl
