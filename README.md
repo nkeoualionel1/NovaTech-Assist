@@ -10,7 +10,8 @@ Novatech-RAG/
 ├── Dataset/               Données, jeu de test et scripts de génération
 ├── novatech/
 │   ├── config.py          Configuration (variables d'environnement / .env)
-│   └── ingestion/         Phase 3 : lecture → découpage → vectorisation → pgvector
+│   ├── ingestion/         Phase 3 : lecture → découpage → vectorisation → pgvector
+│   └── retrieval/         Phase 4 : recherche hybride (vecteurs + plein texte, fusion RRF)
 ├── tests/
 └── docker-compose.yml     PostgreSQL 17 + pgvector
 ```
@@ -44,3 +45,28 @@ pytest
 - **Base** : table `chunks` avec un index vectoriel HNSW (recherche par sens) et un index plein texte en français (recherche par mots-clés), prêts pour la recherche hybride de la phase 4.
 - L'ingestion **reconstruit tout l'index dans une seule transaction** : on peut la relancer après chaque modification des documents ; en cas d'erreur, l'ancien index reste en place.
 - Les clients et commandes ne sont **jamais indexés** (données personnelles).
+
+## Recherche hybride (phase 4)
+
+```bash
+python -m novatech.retrieval "Est-ce que vous livrez en Suisse ?"
+python -m novatech.retrieval "portable léger" --filtre source_type=produit --k 3
+python -m novatech.retrieval.evaluer --details     # qualité sur le jeu de test
+```
+
+Deux recherches sont lancées en parallèle puis fusionnées par **Reciprocal Rank Fusion** (RRF) :
+
+- **vectorielle** (pgvector, similarité cosinus) : trouve les passages proches par le sens ;
+- **plein texte** (PostgreSQL, dictionnaire français) : trouve les mots exacts, comme les références produit.
+
+Filtres disponibles : `source_type` (document / produit), `doc_type`, `categorie`, `source_id`.
+
+Résultats sur les 61 questions du jeu de test dont la source est indexée :
+
+| Mode | Succès@1 | Succès@5 | MRR |
+|---|---|---|---|
+| Vectoriel seul | 64 % | 95 % | 0,78 |
+| Plein texte seul | 64 % | 93 % | 0,75 |
+| **Hybride** | **79 %** | **95 %** | **0,86** |
+
+*Succès@k : la bonne source est parmi les k premiers passages. MRR : moyenne de 1/rang de la première bonne source.*
