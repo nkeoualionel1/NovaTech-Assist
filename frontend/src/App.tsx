@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ApiError, createConversation, sendQuestion, type AssistantReply } from "./api";
 import { AssistantBubble, PendingBubble, UserBubble } from "./Messages";
 import { SourcePanel } from "./SourcePanel";
+import { isWelcomeHidden, WelcomeDialog } from "./WelcomeDialog";
 
 const MAX_MESSAGE_LENGTH = 2000;
 const SUGGESTIONS = [
@@ -22,6 +23,7 @@ export default function App() {
   const [draft, setDraft] = useState("");
   const [steps, setSteps] = useState<string[] | null>(null); // non nul = réponse en cours
   const [openSourceId, setOpenSourceId] = useState<string | null>(null);
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState(() => !isWelcomeHidden());
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -39,6 +41,11 @@ export default function App() {
   useEffect(() => {
     startConversation();
   }, [startConversation]);
+
+  // Curseur dans la zone de saisie dès qu'elle est utilisable et que l'accueil est fermé.
+  useEffect(() => {
+    if (conversationId && !isWelcomeOpen) inputRef.current?.focus();
+  }, [conversationId, isWelcomeOpen]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -86,10 +93,20 @@ export default function App() {
             <p>Service client · réponses issues de notre documentation</p>
           </div>
         </div>
-        <button className="button-secondary" onClick={startConversation} disabled={isPending}>
-          <span className="label-long">Nouvelle conversation</span>
-          <span className="label-short">Nouvelle</span>
-        </button>
+        <div className="header-actions">
+          <button
+            className="button-icon"
+            onClick={() => setIsWelcomeOpen(true)}
+            aria-label="À propos de l'assistant"
+            title="À propos de l'assistant"
+          >
+            ?
+          </button>
+          <button className="button-secondary" onClick={startConversation} disabled={isPending}>
+            <span className="label-long">Nouvelle conversation</span>
+            <span className="label-short">Nouvelle</span>
+          </button>
+        </div>
       </header>
 
       <main className="thread" aria-live="polite">
@@ -162,6 +179,8 @@ export default function App() {
       </footer>
 
       {openSourceId && <SourcePanel id={openSourceId} onClose={() => setOpenSourceId(null)} />}
+
+      <WelcomeDialog open={isWelcomeOpen} onClose={() => setIsWelcomeOpen(false)} />
     </div>
   );
 }
