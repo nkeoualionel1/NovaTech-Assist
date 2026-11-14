@@ -23,14 +23,14 @@ class Settings:
     claude_effort: str
     # Le jeu de données est figé au 30/10/2026 : l'assistant raisonne à cette date
     # (« ma commande arrive quand ? »). En production, on utiliserait l'heure réelle.
-    date_reference: datetime
+    reference_date: datetime
 
 
 def get_settings() -> Settings:
     return Settings(
         claude_model=os.getenv("CLAUDE_MODEL", "claude-opus-5-5"),
         claude_effort=os.getenv("CLAUDE_EFFORT", "medium"),
-        date_reference=datetime.fromisoformat(os.getenv("DATE_REFERENCE", "2026-10-30T12:00")),
+        reference_date=datetime.fromisoformat(os.getenv("REFERENCE_DATE", "2026-10-30T12:00")),
         data_dir=Path(os.getenv("DATA_DIR", ROOT / "Dataset" / "data")),
         database_url=os.getenv(
             "DATABASE_URL", "postgresql://novatech:novatech@localhost:5432/novatech"

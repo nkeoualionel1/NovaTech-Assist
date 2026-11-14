@@ -15,9 +15,9 @@ import anthropic
 from .agent import Assistant, Conversation
 
 
-def afficher(conversation: Conversation, question: str, details: bool) -> None:
+def show_reply(conversation: Conversation, question: str, details: bool) -> None:
     try:
-        reponse = conversation.envoyer(question)
+        reply = conversation.send(question)
     except anthropic.AuthenticationError:
         sys.exit("Clé API invalide : vérifiez ANTHROPIC_API_KEY dans le fichier .env.")
     except anthropic.APIConnectionError:
@@ -28,18 +28,18 @@ def afficher(conversation: Conversation, question: str, details: bool) -> None:
         return
 
     if details:
-        for a in reponse.appels:
-            entree = json.dumps(a.entree, ensure_ascii=False)
-            print(f"  ⚙ {a.nom}({entree})" + ("  → erreur" if a.erreur else ""))
-    print(f"\n{reponse.texte}\n")
+        for call in reply.tool_calls:
+            tool_input = json.dumps(call.input, ensure_ascii=False)
+            print(f"  ⚙ {call.name}({tool_input})" + ("  → erreur" if call.is_error else ""))
+    print(f"\n{reply.text}\n")
     if details:
-        u = reponse.usage
+        u = reply.usage
         print(f"  [tokens en entrée : {u['input_tokens']} normaux, "
               f"{u['cache_creation_input_tokens']} écrits en cache, "
               f"{u['cache_read_input_tokens']} lus depuis le cache ; "
               f"{u['output_tokens']} en sortie]")
-        if reponse.alertes:
-            print(f"  ⚠ garde-fous déclenchés : {', '.join(reponse.alertes)}")
+        if reply.alerts:
+            print(f"  ⚠ garde-fous déclenchés : {', '.join(reply.alerts)}")
 
 
 def main() -> int:
@@ -50,9 +50,9 @@ def main() -> int:
     parser.add_argument("--details", action="store_true", help="affiche outils, tokens et contrôles")
     args = parser.parse_args()
 
-    conversation = Assistant().nouvelle_conversation()
+    conversation = Assistant().new_conversation()
     if args.question:
-        afficher(conversation, args.question, args.details)
+        show_reply(conversation, args.question, args.details)
         return 0
 
     print("NovaTech Assist — tapez votre question (ou « quitter »).\n")
@@ -64,7 +64,7 @@ def main() -> int:
         if question.lower() in {"quitter", "exit", "quit"}:
             break
         if question:
-            afficher(conversation, question, args.details)
+            show_reply(conversation, question, args.details)
     return 0
 
 

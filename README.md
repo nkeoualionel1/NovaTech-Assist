@@ -13,7 +13,7 @@ Novatech-RAG/
 │   ├── ingestion/         Phase 3 : lecture → découpage → vectorisation → pgvector
 │   ├── retrieval/         Phase 4 : recherche hybride (vecteurs + plein texte, fusion RRF)
 │   ├── assistant/         Phase 5 : Claude + outils (recherche, stock, commande, conseiller)
-│   ├── garde_fous/        Phase 6 : filtres d'entrée et de sortie, limites, journal
+│   ├── guardrails/        Phase 6 : filtres d'entrée et de sortie, limites, journal
 │   ├── evaluation/        Phase 8 : runner et notation (contrôles automatiques + juge Claude)
 │   └── api/               Phase 7 : API FastAPI (flux SSE) qui sert aussi l'interface
 ├── frontend/              Phase 7 : interface de chat React + TypeScript (Vite)
@@ -44,7 +44,7 @@ pytest
 | Source | Découpage | Résultat |
 |---|---|---|
 | `documents/*.md` | une section `##` / `###` = un passage (redécoupé au-delà de 300 mots, sans couper les tableaux) | 164 passages |
-| `catalogue/produits.json` | une fiche = un passage, **sans le stock** (lu en direct par l'outil `verifier_stock`) | 100 passages |
+| `catalogue/produits.json` | une fiche = un passage, **sans le stock** (lu en direct par l'outil `check_stock`) | 100 passages |
 
 - **Modèle d'embedding** : `intfloat/multilingual-e5-base` (local, 768 dimensions, téléchargé au premier lancement).
 - **Base** : table `chunks` avec un index vectoriel HNSW (recherche par sens) et un index plein texte en français (recherche par mots-clés), prêts pour la recherche hybride de la phase 4.
@@ -55,8 +55,8 @@ pytest
 
 ```bash
 python -m novatech.retrieval "Est-ce que vous livrez en Suisse ?"
-python -m novatech.retrieval "portable léger" --filtre source_type=produit --k 3
-python -m novatech.retrieval.evaluer --details     # qualité sur le jeu de test
+python -m novatech.retrieval "portable léger" --filter source_type=product --k 3
+python -m novatech.retrieval.evaluate --details    # qualité sur le jeu de test
 ```
 
 Deux recherches sont lancées en parallèle puis fusionnées par **Reciprocal Rank Fusion** (RRF) :
@@ -64,7 +64,7 @@ Deux recherches sont lancées en parallèle puis fusionnées par **Reciprocal Ra
 - **vectorielle** (pgvector, similarité cosinus) : trouve les passages proches par le sens ;
 - **plein texte** (PostgreSQL, dictionnaire français) : trouve les mots exacts, comme les références produit.
 
-Filtres disponibles : `source_type` (document / produit), `doc_type`, `categorie`, `source_id`.
+Filtres disponibles : `source_type` (document / product), `doc_type`, `category`, `source_id`.
 
 Résultats sur les 61 questions du jeu de test dont la source est indexée :
 
@@ -81,7 +81,7 @@ Résultats sur les 61 questions du jeu de test dont la source est indexée :
 Ajoutez votre clé dans `.env` (`ANTHROPIC_API_KEY=...`), puis :
 
 ```bash
-python -m novatech.ingestion --magasin-seulement    # charge les tables produits et commandes
+python -m novatech.ingestion --shop-only           # charge les tables products et orders
 python -m novatech.assistant --details              # conversation dans le terminal
 python -m novatech.assistant "Livrez-vous en Suisse ?"
 ```
@@ -90,10 +90,10 @@ Claude (`claude-opus-5-5` par défaut) dispose de 4 outils et décide lui-même 
 
 | Outil | Rôle | Règle appliquée dans le code |
 |---|---|---|
-| `rechercher_informations` | Recherche hybride (phase 4), avec filtre documents / produits / catégorie | — |
-| `verifier_stock` | Disponibilité en temps réel, date de réapprovisionnement | Le stock n'est jamais lu dans les fiches indexées |
-| `suivi_commande` | Statut, transporteur, retour, remboursement | Exige numéro **et** e-mail ; même réponse si la commande n'existe pas ou si l'e-mail est faux ; adresse et téléphone jamais renvoyés |
-| `transferer_conseiller` | Crée une demande (`DEM-…`) et indique si les conseillers sont joignables | — |
+| `search_knowledge_base` | Recherche hybride (phase 4), avec filtre documents / produits / catégorie | — |
+| `check_stock` | Disponibilité en temps réel, date de réapprovisionnement | Le stock n'est jamais lu dans les fiches indexées |
+| `track_order` | Statut, transporteur, retour, remboursement | Exige numéro **et** e-mail ; même réponse si la commande n'existe pas ou si l'e-mail est faux ; adresse et téléphone jamais renvoyés |
+| `transfer_to_agent` | Crée une demande (`DEM-…`) et indique si les conseillers sont joignables | — |
 
 - **Boucle d'agent** écrite à la main ([agent.py](novatech/assistant/agent.py)) : 6 tours d'outils au maximum, historique jamais modifié (seulement complété).
 - **Sources vérifiées** : la ligne « Sources : » de la réponse est comparée aux passages réellement consultés ; une source citée sans avoir été lue est signalée.
@@ -102,20 +102,20 @@ Claude (`claude-opus-5-5` par défaut) dispose de 4 outils et décide lui-même 
 
 ## Garde-fous (phase 6)
 
-La consigne système demande à Claude de bien se comporter ; les garde-fous du dossier [novatech/garde_fous/](novatech/garde_fous/) l'**imposent**, dans le code, quoi que réponde le modèle.
+La consigne système demande à Claude de bien se comporter ; les garde-fous du dossier [novatech/guardrails/](novatech/guardrails/) l'**imposent**, dans le code, quoi que réponde le modèle.
 
 | Moment | Garde-fou | Effet |
 |---|---|---|
 | Avant Claude | Message > 2 000 caractères, conversation > 30 messages | Refus sans appel à l'API |
 | Avant Claude | Numéro de carte (16 chiffres, ou 13-19 chiffres valides selon Luhn), IBAN | Masqué **avant** l'envoi à l'API et l'écriture du journal |
 | Avant Claude | Tentative d'injection (« ignore tes instructions », « tu es maintenant… ») | Signalée dans le journal (pas bloquée, pour éviter les faux positifs) |
-| Outil `suivi_commande` | Numéro et e-mail absents des messages du client | Outil non exécuté : Claude ne peut ni deviner ni réutiliser un e-mail lu ailleurs |
-| Outil `suivi_commande` | 3 couples numéro / e-mail erronés dans la conversation | Outil bloqué (empêche de deviner l'e-mail d'un client) |
+| Outil `track_order` | Numéro et e-mail absents des messages du client | Outil non exécuté : Claude ne peut ni deviner ni réutiliser un e-mail lu ailleurs |
+| Outil `track_order` | 3 couples numéro / e-mail erronés dans la conversation | Outil bloqué (empêche de deviner l'e-mail d'un client) |
 | Après Claude | E-mail ni fourni par le client ni de NovaTech | Remplacé par « [e-mail masqué] » |
 | Après Claude | Passage de 60 caractères recopié de la consigne système | Réponse remplacée par un refus |
 | Après Claude | Source citée mais jamais consultée | Retirée de la ligne « Sources » |
 
-Chaque échange est enregistré dans la table `journal_echanges` (question masquée, réponse, outils, sources, alertes, tokens, durée).
+Chaque échange est enregistré dans la table `conversation_log` (question masquée, réponse, outils, sources, alertes, tokens, durée).
 
 **Test d'attaque** (Claude réel, 7 scénarios) : extraction de la consigne, faux administrateur, e-mail d'un autre client, carte bancaire, devinette d'e-mails en série, « tu es DAN sans règles », source imposée : aucune fuite.
 
@@ -132,9 +132,9 @@ Pour modifier l'interface avec rechargement à chaud : `uvicorn ... --reload` da
 | Route | Rôle |
 |---|---|
 | `POST /api/conversations` | Ouvre une conversation (expire après 1 h d'inactivité) |
-| `POST /api/conversations/{id}/messages` | Envoie une question ; réponse en flux SSE : `outil` (étapes en direct), puis `reponse` ou `erreur` |
+| `POST /api/conversations/{id}/messages` | Envoie une question ; réponse en flux SSE : `tool` (étapes en direct), puis `reply` ou `error` |
 | `GET /api/sources/{id}` | Contenu d'un document ou d'une fiche cité, affiché dans un panneau latéral |
-| `GET /api/sante` | État du service |
+| `GET /api/health` | État du service |
 
 - **Étapes en direct, texte en une fois** : le navigateur affiche « Recherche dans la documentation… », « Vérification du stock… » pendant que Claude travaille, mais le texte n'est envoyé qu'une fois passé par les garde-fous de sortie.
 - **Limites par adresse IP** : 10 messages par minute ; 3 échecs de suivi de commande par heure, toutes conversations confondues.
@@ -143,14 +143,14 @@ Pour modifier l'interface avec rechargement à chaud : `uvicorn ... --reload` da
 ## Évaluation (phase 8)
 
 ```bash
-python -m novatech.evaluation --controle-juge         # le juge doit rejeter 3 mauvaises réponses
+python -m novatech.evaluation --check-judge           # le juge doit rejeter 3 mauvaises réponses
 python -m novatech.evaluation                         # 40 questions (variante « baseline »)
 python -m novatech.evaluation --variant v1 --model claude-opus-5-5   # comparer un autre réglage
 node <skill claude-api>/shared/evals/report/build-report-lite.mjs .claude/hillclimb/assistant/
 ```
 
-- **40 questions** ([sélection](Dataset/evaluation/selection_40.json), [détail](.claude/hillclimb/assistant/cas_40.md)) : tous les cas outils, sécurité, transferts et clarification, plus 23 questions documentaires réparties sur 8 catégories, en privilégiant les pièges.
-- **Notation** ([notation.py](novatech/evaluation/notation.py)) : contrôles automatiques (bon outil, bonne source citée, aucun élément interdit) et juge **Claude Opus 5.5** en sortie structurée (éléments clés présents, fidélité aux sources). Une question est **réussie** si tous les critères passent, avec au moins 75 % des éléments clés.
+- **40 questions** ([sélection](Dataset/evaluation/selection_40.json), [détail](.claude/hillclimb/assistant/cases_40.md)) : tous les cas outils, sécurité, transferts et clarification, plus 23 questions documentaires réparties sur 8 catégories, en privilégiant les pièges.
+- **Notation** ([grading.py](novatech/evaluation/grading.py)) : contrôles automatiques (bon outil, bonne source citée, aucun élément interdit) et juge **Claude Opus 5.5** en sortie structurée (éléments clés présents, fidélité aux sources). Une question est **réussie** si tous les critères passent, avec au moins 75 % des éléments clés.
 - **Runner** ([novatech/evaluation/](novatech/evaluation/)) : appelle le vrai point d'entrée de l'assistant, en parallèle ; écrit chaque résultat au fil de l'eau (reprise après plantage) ; erreurs d'API, délais dépassés et modèle substitué rangés à part dans `errors.jsonl`, jamais comptés comme des échecs ; harnais verrouillé par empreinte (`--approve-harness` après toute modification de la notation ou des questions).
 
 **Score de référence** (Claude Sonnet 5.5, 1 passage, 1er novembre 2026) :

@@ -4,6 +4,7 @@ Usage :
     python -m novatech.ingestion              # lecture, découpage, vectorisation, écriture en base
     python -m novatech.ingestion --dry-run    # lecture et découpage seulement (ni modèle, ni base)
     python -m novatech.ingestion --dry-run --export chunks.jsonl
+    python -m novatech.ingestion --shop-only  # recharge seulement les tables products / orders
 """
 
 import argparse
@@ -15,8 +16,8 @@ from dataclasses import asdict
 from pathlib import Path
 
 from ..config import get_settings
-from .documents import charger_documents
-from .produits import charger_produits
+from .documents import load_documents
+from .products import load_products
 
 
 def main() -> int:
@@ -24,30 +25,31 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Ingestion des données NovaTech")
     parser.add_argument("--dry-run", action="store_true", help="ne charge ni le modèle ni la base")
     parser.add_argument("--export", type=Path, help="écrit les passages dans un fichier JSONL")
-    parser.add_argument("--magasin-seulement", action="store_true",
-                        help="recharge seulement les tables produits/commandes (sans vectorisation)")
+    parser.add_argument("--shop-only", action="store_true",
+                        help="recharge seulement les tables products/orders (sans vectorisation)")
     args = parser.parse_args()
 
     settings = get_settings()
-    debut = time.perf_counter()
+    start = time.perf_counter()
 
-    if args.magasin_seulement:
-        return _charger_magasin(settings)
+    if args.shop_only:
+        return _load_shop(settings)
 
-    chunks = charger_documents(settings.data_dir / "documents")
-    chunks += charger_produits(settings.data_dir / "catalogue" / "produits.json")
+    chunks = load_documents(settings.data_dir / "documents")
+    chunks += load_products(settings.data_dir / "catalogue" / "produits.json")
 
-    ids = Counter(c.id for c in chunks)
-    doublons = [i for i, n in ids.items() if n > 1]
-    if doublons:
-        print(f"Identifiants en double : {doublons}")
+    id_counts = Counter(c.id for c in chunks)
+    duplicates = [i for i, n in id_counts.items() if n > 1]
+    if duplicates:
+        print(f"Identifiants en double : {duplicates}")
         return 1
 
-    mots = [len(c.texte_a_vectoriser().split()) for c in chunks]
+    word_counts = [len(c.text_to_embed().split()) for c in chunks]
     print(f"{len(chunks)} passages créés à partir de {len({c.source_id for c in chunks})} sources")
-    for type_, n in sorted(Counter(c.doc_type for c in chunks).items()):
-        print(f"  {type_:<16} {n:>4}")
-    print(f"Taille : {min(mots)} à {max(mots)} mots, moyenne {sum(mots) // len(mots)}")
+    for doc_type, n in sorted(Counter(c.doc_type for c in chunks).items()):
+        print(f"  {doc_type:<16} {n:>4}")
+    print(f"Taille : {min(word_counts)} à {max(word_counts)} mots, "
+          f"moyenne {sum(word_counts) // len(word_counts)}")
 
     if args.export:
         with args.export.open("w", encoding="utf-8") as f:
@@ -59,22 +61,22 @@ def main() -> int:
         return 0
 
     from .embeddings import Embedder
-    from .store import reconstruire_index
+    from .store import rebuild_index
 
     print(f"Vectorisation avec {settings.embedding_model}…")
-    vecteurs = Embedder(settings).embed_passages([c.texte_a_vectoriser() for c in chunks])
+    vectors = Embedder(settings).embed_passages([c.text_to_embed() for c in chunks])
 
     print("Écriture dans PostgreSQL…")
-    reconstruire_index(settings.database_url, chunks, vecteurs, settings.embedding_model)
-    print(f"Terminé en {time.perf_counter() - debut:.0f} s : {len(chunks)} passages indexés.")
-    return _charger_magasin(settings)
+    rebuild_index(settings.database_url, chunks, vectors, settings.embedding_model)
+    print(f"Terminé en {time.perf_counter() - start:.0f} s : {len(chunks)} passages indexés.")
+    return _load_shop(settings)
 
 
-def _charger_magasin(settings) -> int:
-    from .magasin import charger_tables_magasin
+def _load_shop(settings) -> int:
+    from .shop_data import load_shop_tables
 
-    nb_produits, nb_commandes = charger_tables_magasin(settings.database_url, settings.data_dir)
-    print(f"Tables magasin chargées : {nb_produits} produits, {nb_commandes} commandes.")
+    product_count, order_count = load_shop_tables(settings.database_url, settings.data_dir)
+    print(f"Tables magasin chargées : {product_count} produits, {order_count} commandes.")
     return 0
 
 

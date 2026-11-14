@@ -1,10 +1,10 @@
 import Markdown from "react-markdown";
-import type { ReponseAssistant, Transfert } from "./api";
+import type { AssistantReply, Handoff } from "./api";
 
-export function BulleClient({ texte }: { texte: string }) {
+export function UserBubble({ text }: { text: string }) {
   return (
-    <div className="ligne ligne-client">
-      <div className="bulle bulle-client">{texte}</div>
+    <div className="row row-user">
+      <div className="bubble bubble-user">{text}</div>
     </div>
   );
 }
@@ -17,29 +17,29 @@ function Avatar() {
   );
 }
 
-export function BulleAssistant({
-  reponse,
-  ouvrirSource,
+export function AssistantBubble({
+  reply,
+  onOpenSource,
 }: {
-  reponse: ReponseAssistant;
-  ouvrirSource: (id: string) => void;
+  reply: AssistantReply;
+  onOpenSource: (id: string) => void;
 }) {
   return (
-    <div className="ligne">
+    <div className="row">
       <Avatar />
-      <div className="bulle bulle-assistant">
-        <div className="texte">
+      <div className="bubble bubble-assistant">
+        <div className="markdown">
           {/* Le HTML brut n'est pas interprété par react-markdown : pas d'injection de script. */}
-          <Markdown>{reponse.texte}</Markdown>
+          <Markdown>{reply.text}</Markdown>
         </div>
-        {reponse.transfert && <CarteTransfert transfert={reponse.transfert} />}
-        {reponse.sources.length > 0 && (
+        {reply.handoff && <HandoffCard handoff={reply.handoff} />}
+        {reply.sources.length > 0 && (
           <div className="sources">
-            <span className="sources-titre">Sources</span>
-            {reponse.sources.map((s) => (
-              <button key={s.id} className="source" onClick={() => ouvrirSource(s.id)}>
-                <span aria-hidden="true">{s.type === "produit" ? "🛒" : "📄"}</span>
-                {s.titre}
+            <span className="sources-title">Sources</span>
+            {reply.sources.map((s) => (
+              <button key={s.id} className="source" onClick={() => onOpenSource(s.id)}>
+                <span aria-hidden="true">{s.type === "product" ? "🛒" : "📄"}</span>
+                {s.title}
               </button>
             ))}
           </div>
@@ -49,33 +49,33 @@ export function BulleAssistant({
   );
 }
 
-function CarteTransfert({ transfert }: { transfert: Transfert }) {
+function HandoffCard({ handoff }: { handoff: Handoff }) {
   return (
-    <div className="transfert">
-      <strong>Demande transmise à un conseiller · {transfert.reference_demande}</strong>
+    <div className="handoff">
+      <strong>Demande transmise à un conseiller · {handoff.request_reference}</strong>
       <span>
-        {transfert.conseillers_disponibles_maintenant
+        {handoff.agents_available_now
           ? "Les conseillers sont disponibles en ce moment."
           : "Les conseillers vous recontacteront dès la réouverture."}{" "}
-        Horaires : {transfert.horaires}.
+        Horaires : {handoff.hours}.
       </span>
       <span>
-        {transfert.contact.telephone} · {transfert.contact.email}
+        {handoff.contact.phone} · {handoff.contact.email}
       </span>
     </div>
   );
 }
 
-export function BulleAttente({ etapes }: { etapes: string[] }) {
-  const liste = etapes.length ? etapes : ["Réflexion…"];
+export function PendingBubble({ steps }: { steps: string[] }) {
+  const visibleSteps = steps.length ? steps : ["Réflexion…"];
   return (
-    <div className="ligne">
+    <div className="row">
       <Avatar />
-      <div className="bulle bulle-assistant attente" aria-label="Réponse en cours">
-        {liste.map((etape, i) => (
-          <div key={i} className={i === liste.length - 1 ? "etape active" : "etape"}>
-            <span className="indicateur" aria-hidden="true" />
-            {etape}
+      <div className="bubble bubble-assistant pending" aria-label="Réponse en cours">
+        {visibleSteps.map((step, i) => (
+          <div key={i} className={i === visibleSteps.length - 1 ? "step active" : "step"}>
+            <span className="indicator" aria-hidden="true" />
+            {step}
           </div>
         ))}
       </div>

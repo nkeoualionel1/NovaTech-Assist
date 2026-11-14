@@ -9,95 +9,96 @@ from pathlib import Path
 
 from .models import Chunk
 
-MAX_MOTS = 300  # au-delà, une section est redécoupée
+MAX_WORDS = 300  # au-delà, une section est redécoupée
 FRONT_MATTER = re.compile(r"^---\n(.*?)\n---\n", re.S)
-TITRE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
+HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
 
 
-def lire_document(path: Path) -> tuple[dict, str]:
+def read_document(path: Path) -> tuple[dict, str]:
     """Renvoie (front-matter, corps) d'un fichier Markdown."""
-    texte = path.read_text(encoding="utf-8").replace("\r\n", "\n")
-    m = FRONT_MATTER.match(texte)
-    if not m:
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
+    match = FRONT_MATTER.match(text)
+    if not match:
         raise ValueError(f"{path.name} : front-matter manquant")
     meta = {}
-    for ligne in m.group(1).splitlines():
-        if ":" in ligne:
-            cle, valeur = ligne.split(":", 1)
-            meta[cle.strip()] = valeur.split(" #")[0].strip()
-    for champ in ("id", "titre", "type"):
-        if not meta.get(champ):
-            raise ValueError(f"{path.name} : champ '{champ}' absent du front-matter")
-    return meta, texte[m.end():]
+    for line in match.group(1).splitlines():
+        if ":" in line:
+            key, value = line.split(":", 1)
+            meta[key.strip()] = value.split(" #")[0].strip()
+    # Clés du front-matter des documents sources (en français dans le dataset).
+    for required in ("id", "titre", "type"):
+        if not meta.get(required):
+            raise ValueError(f"{path.name} : champ '{required}' absent du front-matter")
+    return meta, text[match.end():]
 
 
-def _sections(corps: str) -> list[tuple[list[str], str]]:
+def _split_sections(body: str) -> list[tuple[list[str], str]]:
     """Découpe le corps en (chemin de titres, texte) en suivant la hiérarchie des titres."""
-    sections, chemin, lignes = [], [], []
-    dans_code = False
+    sections, path, lines = [], [], []
+    in_code_block = False
 
-    def vider():
-        texte = "\n".join(lignes).strip()
-        if texte:
-            sections.append((list(chemin), texte))
-        lignes.clear()
+    def flush():
+        text = "\n".join(lines).strip()
+        if text:
+            sections.append((list(path), text))
+        lines.clear()
 
-    for ligne in corps.split("\n"):
-        if ligne.lstrip().startswith("```"):
-            dans_code = not dans_code
-        m = None if dans_code else TITRE.match(ligne)
-        if not m:
-            lignes.append(ligne)
+    for line in body.split("\n"):
+        if line.lstrip().startswith("```"):
+            in_code_block = not in_code_block
+        match = None if in_code_block else HEADING.match(line)
+        if not match:
+            lines.append(line)
             continue
-        vider()
-        niveau = len(m.group(1))
+        flush()
+        level = len(match.group(1))
         # Le titre H1 est le titre du document : il n'entre pas dans le chemin de section.
-        if niveau == 1:
-            chemin = []
+        if level == 1:
+            path = []
             continue
-        chemin = chemin[: niveau - 2] + [m.group(2)]
-    vider()
+        path = path[: level - 2] + [match.group(2)]
+    flush()
     return sections
 
 
-def _redecouper(texte: str, max_mots: int) -> list[str]:
-    """Regroupe les paragraphes (séparés par une ligne vide) en morceaux d'au plus max_mots."""
-    if len(texte.split()) <= max_mots:
-        return [texte]
-    morceaux, courant = [], []
-    for para in re.split(r"\n\s*\n", texte):
-        if courant and len(" ".join(courant + [para]).split()) > max_mots:
-            morceaux.append("\n\n".join(courant))
-            courant = []
-        courant.append(para)
-    if courant:
-        morceaux.append("\n\n".join(courant))
-    return morceaux
+def _split_long_text(text: str, max_words: int) -> list[str]:
+    """Regroupe les paragraphes (séparés par une ligne vide) en morceaux d'au plus max_words."""
+    if len(text.split()) <= max_words:
+        return [text]
+    pieces, current = [], []
+    for paragraph in re.split(r"\n\s*\n", text):
+        if current and len(" ".join(current + [paragraph]).split()) > max_words:
+            pieces.append("\n\n".join(current))
+            current = []
+        current.append(paragraph)
+    if current:
+        pieces.append("\n\n".join(current))
+    return pieces
 
 
-def decouper_document(path: Path, max_mots: int = MAX_MOTS) -> list[Chunk]:
-    meta, corps = lire_document(path)
+def chunk_document(path: Path, max_words: int = MAX_WORDS) -> list[Chunk]:
+    meta, body = read_document(path)
     chunks = []
-    for chemin, texte in _sections(corps):
-        section = " > ".join(chemin) or None
-        for morceau in _redecouper(texte, max_mots):
+    for heading_path, text in _split_sections(body):
+        section = " > ".join(heading_path) or None
+        for piece in _split_long_text(text, max_words):
             chunks.append(
                 Chunk(
                     id=f"{meta['id']}#{len(chunks):02d}",
                     source_id=meta["id"],
                     source_type="document",
                     doc_type=meta["type"],
-                    titre=meta["titre"],
+                    title=meta["titre"],
                     section=section,
-                    contenu=morceau,
-                    metadata={"fichier": path.name, "mise_a_jour": meta.get("mise_a_jour")},
+                    content=piece,
+                    metadata={"file": path.name, "updated_on": meta.get("mise_a_jour")},
                 )
             )
     return chunks
 
 
-def charger_documents(dossier: Path) -> list[Chunk]:
+def load_documents(directory: Path) -> list[Chunk]:
     chunks = []
-    for path in sorted(dossier.rglob("*.md")):
-        chunks.extend(decouper_document(path))
+    for path in sorted(directory.rglob("*.md")):
+        chunks.extend(chunk_document(path))
     return chunks

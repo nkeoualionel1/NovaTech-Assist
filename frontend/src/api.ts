@@ -1,81 +1,81 @@
 // Client de l'API FastAPI (voir novatech/api/app.py).
 
-export type Source = { id: string; titre: string; type: "document" | "produit" };
+export type Source = { id: string; title: string; type: "document" | "product" };
 
-export type Transfert = {
-  reference_demande: string;
-  conseillers_disponibles_maintenant: boolean;
-  horaires: string;
-  contact: { telephone: string; email: string };
+export type Handoff = {
+  request_reference: string;
+  agents_available_now: boolean;
+  hours: string;
+  contact: { phone: string; email: string };
 };
 
-export type ReponseAssistant = {
-  texte: string;
+export type AssistantReply = {
+  text: string;
   sources: Source[];
-  outils: string[];
-  transfert: Transfert | null;
+  tools: string[];
+  handoff: Handoff | null;
 };
 
-export type DetailSource = { id: string; titre: string; type: string; contenu: string };
+export type SourceDetail = { id: string; title: string; type: string; content: string };
 
-export class ErreurApi extends Error {
-  constructor(message: string, public statut?: number) {
+export class ApiError extends Error {
+  constructor(message: string, public status?: number) {
     super(message);
   }
 }
 
-async function lireErreur(reponse: Response): Promise<ErreurApi> {
+async function readError(response: Response): Promise<ApiError> {
   try {
-    const corps = await reponse.json();
-    const detail = typeof corps.detail === "string" ? corps.detail : "Requête invalide.";
-    return new ErreurApi(detail, reponse.status);
+    const body = await response.json();
+    const detail = typeof body.detail === "string" ? body.detail : "Requête invalide.";
+    return new ApiError(detail, response.status);
   } catch {
-    return new ErreurApi("Le service ne répond pas. Réessayez dans un instant.", reponse.status);
+    return new ApiError("Le service ne répond pas. Réessayez dans un instant.", response.status);
   }
 }
 
-export async function creerConversation(): Promise<string> {
-  const reponse = await fetch("/api/conversations", { method: "POST" });
-  if (!reponse.ok) throw await lireErreur(reponse);
-  return (await reponse.json()).id;
+export async function createConversation(): Promise<string> {
+  const response = await fetch("/api/conversations", { method: "POST" });
+  if (!response.ok) throw await readError(response);
+  return (await response.json()).id;
 }
 
-export async function lireSource(id: string): Promise<DetailSource> {
-  const reponse = await fetch(`/api/sources/${encodeURIComponent(id)}`);
-  if (!reponse.ok) throw await lireErreur(reponse);
-  return reponse.json();
+export async function getSource(id: string): Promise<SourceDetail> {
+  const response = await fetch(`/api/sources/${encodeURIComponent(id)}`);
+  if (!response.ok) throw await readError(response);
+  return response.json();
 }
 
 /** Envoie une question et lit le flux d'événements (Server-Sent Events) renvoyé par l'API. */
-export async function envoyerQuestion(
+export async function sendQuestion(
   conversationId: string,
   question: string,
-  surEtape: (libelle: string) => void,
-): Promise<ReponseAssistant> {
-  const reponse = await fetch(`/api/conversations/${conversationId}/messages`, {
+  onStep: (label: string) => void,
+): Promise<AssistantReply> {
+  const response = await fetch(`/api/conversations/${conversationId}/messages`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question }),
   });
-  if (!reponse.ok || !reponse.body) throw await lireErreur(reponse);
+  if (!response.ok || !response.body) throw await readError(response);
 
-  const lecteur = reponse.body.pipeThrough(new TextDecoderStream()).getReader();
-  let tampon = "";
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+  let buffer = "";
   for (;;) {
-    const { value, done } = await lecteur.read();
+    const { value, done } = await reader.read();
     if (done) break;
-    tampon += value;
+    buffer += value;
     // Un événement se termine par une ligne vide.
-    let fin: number;
-    while ((fin = tampon.indexOf("\n\n")) >= 0) {
-      const bloc = tampon.slice(0, fin);
-      tampon = tampon.slice(fin + 2);
-      const type = /^event: (.+)$/m.exec(bloc)?.[1];
-      const donnees = JSON.parse(/^data: (.+)$/m.exec(bloc)?.[1] ?? "{}");
-      if (type === "outil") surEtape(donnees.libelle);
-      else if (type === "reponse") return donnees as ReponseAssistant;
-      else if (type === "erreur") throw new ErreurApi(donnees.message);
+    let end: number;
+    while ((end = buffer.indexOf("\n\n")) >= 0) {
+      const block = buffer.slice(0, end);
+      buffer = buffer.slice(end + 2);
+      const eventType = /^event: (.+)$/m.exec(block)?.[1];
+      const data = JSON.parse(/^data: (.+)$/m.exec(block)?.[1] ?? "{}");
+      if (eventType === "tool") onStep(data.label);
+      else if (eventType === "reply") return data as AssistantReply;
+      else if (eventType === "error") throw new ApiError(data.message);
     }
   }
-  throw new ErreurApi("La connexion a été interrompue. Réessayez.");
+  throw new ApiError("La connexion a été interrompue. Réessayez.");
 }

@@ -1,7 +1,7 @@
 """Transformation des fiches produits en passages texte.
 
 Le stock n'est volontairement PAS écrit dans le passage : il change en permanence
-et sera lu en direct par l'outil verifier_stock().
+et sera lu en direct par l'outil check_stock().
 """
 
 import json
@@ -9,8 +9,8 @@ from pathlib import Path
 
 from .models import Chunk
 
-# Libellés lisibles pour les clés JSON (les autres sont dérivées automatiquement).
-LIBELLES = {
+# Libellés lisibles pour les clés JSON du catalogue (les autres sont dérivés automatiquement).
+LABELS = {
     "memoire": "Mémoire",
     "ecran": "Écran",
     "carte_graphique": "Carte graphique",
@@ -61,73 +61,74 @@ LIBELLES = {
 }
 
 
-def _libelle(cle: str) -> str:
-    return LIBELLES.get(cle) or cle.replace("_", " ").capitalize()
+def _label(key: str) -> str:
+    return LABELS.get(key) or key.replace("_", " ").capitalize()
 
 
-def _nombre(valeur) -> str:
+def _format_number(value) -> str:
     """Format français : 1.3 → « 1,3 », 1599 → « 1 599 »."""
-    if isinstance(valeur, float) and valeur.is_integer():
-        valeur = int(valeur)
-    if isinstance(valeur, int):
-        return f"{valeur:,}".replace(",", " ")
-    return str(valeur).replace(".", ",")
+    if isinstance(value, float) and value.is_integer():
+        value = int(value)
+    if isinstance(value, int):
+        return f"{value:,}".replace(",", " ")
+    return str(value).replace(".", ",")
 
 
-def _valeur(valeur) -> str:
-    if isinstance(valeur, bool):
-        return "oui" if valeur else "non"
-    if isinstance(valeur, list):
-        return ", ".join(map(str, valeur))
-    if isinstance(valeur, (int, float)):
-        return _nombre(valeur)
-    return str(valeur)
+def _format_value(value) -> str:
+    if isinstance(value, bool):
+        return "oui" if value else "non"
+    if isinstance(value, list):
+        return ", ".join(map(str, value))
+    if isinstance(value, (int, float)):
+        return _format_number(value)
+    return str(value)
 
 
-def texte_produit(p: dict) -> str:
-    lignes = [
+def product_text(p: dict) -> str:
+    """Fiche lisible d'un produit (les clés du dict sont celles du catalogue source)."""
+    lines = [
         f"Produit : {p['nom']} (référence {p['sku']})",
         f"Marque : {p['marque']} · Catégorie : {p['categorie']}"
         + (f" · Type : {p['sous_categorie']}" if p["sous_categorie"] != p["categorie"] else ""),
     ]
-    prix = f"Prix : {_nombre(p['prix_ttc'])} € TTC"
+    price = f"Prix : {_format_number(p['prix_ttc'])} € TTC"
     if p.get("prix_barre"):
-        prix += f" (au lieu de {_nombre(p['prix_barre'])} €)"
-    lignes.append(prix)
+        price += f" (au lieu de {_format_number(p['prix_barre'])} €)"
+    lines.append(price)
 
-    garantie = p.get("garantie_constructeur_ans")
-    if garantie is not None:
-        duree = garantie if isinstance(garantie, str) else f"{garantie} an{'s' if garantie > 1 else ''}"
-        lignes.append(f"Garantie constructeur : {duree}")
+    warranty = p.get("garantie_constructeur_ans")
+    if warranty is not None:
+        duration = warranty if isinstance(warranty, str) else f"{warranty} an{'s' if warranty > 1 else ''}"
+        lines.append(f"Garantie constructeur : {duration}")
     if p.get("poids_kg"):
-        lignes.append(f"Poids : {_nombre(p['poids_kg'])} kg")
+        lines.append(f"Poids : {_format_number(p['poids_kg'])} kg")
 
-    lignes += ["", p["description"], "", "Caractéristiques :"]
-    lignes += [f"- {_libelle(k)} : {_valeur(v)}" for k, v in p["caracteristiques"].items()]
-    return "\n".join(lignes)
+    lines += ["", p["description"], "", "Caractéristiques :"]
+    lines += [f"- {_label(k)} : {_format_value(v)}" for k, v in p["caracteristiques"].items()]
+    return "\n".join(lines)
 
 
-def charger_produits(fichier: Path) -> list[Chunk]:
-    produits = json.loads(fichier.read_text(encoding="utf-8"))
+def load_products(catalog_file: Path) -> list[Chunk]:
+    products = json.loads(catalog_file.read_text(encoding="utf-8"))
     return [
         Chunk(
-            id=f"produit:{p['sku']}",
+            id=f"product:{p['sku']}",
             source_id=p["sku"],
-            source_type="produit",
-            doc_type="produit",
-            titre=p["nom"],
+            source_type="product",
+            doc_type="product",
+            title=p["nom"],
             section=None,
-            contenu=texte_produit(p),
+            content=product_text(p),
             # Le champ "compatibilite" est structuré : on le garde en métadonnées pour
             # des vérifications exactes plus tard (socket, DDR4/DDR5, longueur GPU…).
             metadata={
                 "sku": p["sku"],
-                "marque": p["marque"],
-                "categorie": p["categorie"],
-                "sous_categorie": p["sous_categorie"],
-                "prix_ttc": p["prix_ttc"],
-                "compatibilite": p.get("compatibilite"),
+                "brand": p["marque"],
+                "category": p["categorie"],
+                "subcategory": p["sous_categorie"],
+                "price_incl_vat": p["prix_ttc"],
+                "compatibility": p.get("compatibilite"),
             },
         )
-        for p in produits
+        for p in products
     ]

@@ -20,40 +20,41 @@ from ..config import Settings, get_settings
 from ..ingestion.embeddings import Embedder
 
 RRF_K = 60  # valeur standard : atténue l'écart entre le 1er et le 2e rang
-NB_CANDIDATS = 30  # passages récupérés par chaque recherche avant fusion
-FILTRES_AUTORISES = {
+CANDIDATES_PER_SEARCH = 30  # passages récupérés par chaque recherche avant fusion
+ALLOWED_FILTERS = {
     "source_type": "source_type = %s",
     "doc_type": "doc_type = %s",
-    "categorie": "metadata->>'categorie' = %s",
+    "category": "metadata->>'category' = %s",
     "source_id": "source_id = %s",
 }
+SEARCH_MODES = ("hybrid", "vector", "text")
 
 
-def fusion_rrf(listes: dict[str, list[str]], k: int = RRF_K) -> tuple[dict, dict]:
+def rrf_fusion(rankings: dict[str, list[str]], k: int = RRF_K) -> tuple[dict, dict]:
     """Fusionne des classements : score = somme de 1 / (k + rang) sur chaque liste."""
-    scores, rangs = {}, {}
-    for nom, ids in listes.items():
-        for rang, id_ in enumerate(ids, start=1):
-            scores[id_] = scores.get(id_, 0.0) + 1 / (k + rang)
-            rangs.setdefault(id_, {})[nom] = rang
-    return scores, rangs
+    scores, ranks = {}, {}
+    for ranking_name, ids in rankings.items():
+        for rank, chunk_id in enumerate(ids, start=1):
+            scores[chunk_id] = scores.get(chunk_id, 0.0) + 1 / (k + rank)
+            ranks.setdefault(chunk_id, {})[ranking_name] = rank
+    return scores, ranks
 
 
 @dataclass
-class Resultat:
+class SearchResult:
     id: str
     source_id: str
     source_type: str
     doc_type: str
-    titre: str
+    title: str
     section: str | None
-    contenu: str
+    content: str
     metadata: dict
     score: float = 0.0
-    rangs: dict = field(default_factory=dict)  # rang dans chaque recherche, pour le débogage
+    ranks: dict = field(default_factory=dict)  # rang dans chaque recherche, pour le débogage
 
 
-class Recherche:
+class Retriever:
     """À créer une seule fois : charge le modèle et garde la connexion ouverte."""
 
     def __init__(self, settings: Settings | None = None, conn: psycopg.Connection | None = None):
@@ -61,46 +62,46 @@ class Recherche:
         self.embedder = Embedder(self.settings)
         self.conn = conn or psycopg.connect(self.settings.database_url, autocommit=True)
         register_vector(self.conn)
-        self._verifier_modele()
+        self._check_index_model()
 
-    def _verifier_modele(self) -> None:
+    def _check_index_model(self) -> None:
         """La question doit être vectorisée avec le même modèle que les passages."""
-        ligne = self.conn.execute(
-            "SELECT valeur FROM index_info WHERE cle = 'embedding_model'"
+        row = self.conn.execute(
+            "SELECT value FROM index_info WHERE key = 'embedding_model'"
         ).fetchone()
-        if ligne is None:
+        if row is None:
             raise RuntimeError("Index vide : lancez d'abord python -m novatech.ingestion")
-        if ligne[0] != self.settings.embedding_model:
+        if row[0] != self.settings.embedding_model:
             raise RuntimeError(
-                f"L'index a été construit avec {ligne[0]} mais la configuration demande "
+                f"L'index a été construit avec {row[0]} mais la configuration demande "
                 f"{self.settings.embedding_model} : relancez l'ingestion."
             )
 
     @staticmethod
-    def _where(filtres: dict | None) -> tuple[str, list]:
-        if not filtres:
+    def _where(filters: dict | None) -> tuple[str, list]:
+        if not filters:
             return "", []
-        inconnus = set(filtres) - set(FILTRES_AUTORISES)
-        if inconnus:
-            raise ValueError(f"Filtres inconnus : {inconnus}")
-        clauses = [FILTRES_AUTORISES[cle] for cle in filtres]
-        return " AND " + " AND ".join(clauses), list(filtres.values())
+        unknown = set(filters) - set(ALLOWED_FILTERS)
+        if unknown:
+            raise ValueError(f"Filtres inconnus : {unknown}")
+        clauses = [ALLOWED_FILTERS[key] for key in filters]
+        return " AND " + " AND ".join(clauses), list(filters.values())
 
-    def recherche_vectorielle(self, question: str, n: int = NB_CANDIDATS, filtres=None) -> list[str]:
-        vecteur = Vector(self.embedder.embed_query(question))
-        where, params = self._where(filtres)
-        lignes = self.conn.execute(
+    def vector_search(self, question: str, n: int = CANDIDATES_PER_SEARCH, filters=None) -> list[str]:
+        vector = Vector(self.embedder.embed_query(question))
+        where, params = self._where(filters)
+        rows = self.conn.execute(
             f"SELECT id FROM chunks WHERE TRUE {where} ORDER BY embedding <=> %s LIMIT %s",
-            [*params, vecteur, n],
+            [*params, vector, n],
         ).fetchall()
-        return [l[0] for l in lignes]
+        return [row[0] for row in rows]
 
-    def recherche_texte(self, question: str, n: int = NB_CANDIDATS, filtres=None) -> list[str]:
+    def text_search(self, question: str, n: int = CANDIDATES_PER_SEARCH, filters=None) -> list[str]:
         # plainto_tsquery relie les mots par ET : une question en langage naturel ne trouverait
         # presque rien. On remplace les ET par des OU ; ts_rank_cd favorise ensuite les passages
         # qui contiennent le plus de mots de la question, et les plus rapprochés.
-        where, params = self._where(filtres)
-        lignes = self.conn.execute(
+        where, params = self._where(filters)
+        rows = self.conn.execute(
             f"""WITH q AS (
                     SELECT replace(plainto_tsquery('french', %s)::text, '&', '|')::tsquery AS q
                 )
@@ -110,42 +111,42 @@ class Recherche:
                 LIMIT %s""",
             [question, *params, n],
         ).fetchall()
-        return [l[0] for l in lignes]
+        return [row[0] for row in rows]
 
-    def rechercher(self, question: str, k: int = 5, filtres: dict | None = None,
-                   mode: str = "hybride") -> list[Resultat]:
+    def search(self, question: str, k: int = 5, filters: dict | None = None,
+               mode: str = "hybrid") -> list[SearchResult]:
         """Renvoie les k passages les plus pertinents.
 
-        mode : "hybride" (par défaut), "vecteur" ou "texte" (utile pour comparer).
-        filtres : ex. {"source_type": "produit"} ou {"categorie": "Processeur"}.
+        mode : "hybrid" (par défaut), "vector" ou "text" (utile pour comparer).
+        filters : ex. {"source_type": "product"} ou {"category": "Processeur"}.
         """
-        listes = {}
-        if mode in ("hybride", "vecteur"):
-            listes["vecteur"] = self.recherche_vectorielle(question, filtres=filtres)
-        if mode in ("hybride", "texte"):
-            listes["texte"] = self.recherche_texte(question, filtres=filtres)
-        if not listes:
+        rankings = {}
+        if mode in ("hybrid", "vector"):
+            rankings["vector"] = self.vector_search(question, filters=filters)
+        if mode in ("hybrid", "text"):
+            rankings["text"] = self.text_search(question, filters=filters)
+        if not rankings:
             raise ValueError(f"Mode inconnu : {mode}")
 
-        scores, rangs = fusion_rrf(listes)
-        meilleurs = sorted(scores, key=scores.get, reverse=True)[:k]
-        return self._charger(meilleurs, scores, rangs)
+        scores, ranks = rrf_fusion(rankings)
+        best_ids = sorted(scores, key=scores.get, reverse=True)[:k]
+        return self._load(best_ids, scores, ranks)
 
-    def _charger(self, ids: list[str], scores: dict, rangs: dict) -> list[Resultat]:
+    def _load(self, ids: list[str], scores: dict, ranks: dict) -> list[SearchResult]:
         if not ids:
             return []
         with self.conn.cursor(row_factory=dict_row) as cur:
-            lignes = cur.execute(
-                """SELECT id, source_id, source_type, doc_type, titre, section, contenu, metadata
+            rows = cur.execute(
+                """SELECT id, source_id, source_type, doc_type, title, section, content, metadata
                    FROM chunks WHERE id = ANY(%s)""",
                 [ids],
             ).fetchall()
-        par_id = {l["id"]: l for l in lignes}
+        by_id = {row["id"]: row for row in rows}
         return [
-            Resultat(**par_id[i], score=round(scores[i], 5), rangs=rangs[i])
+            SearchResult(**by_id[i], score=round(scores[i], 5), ranks=ranks[i])
             for i in ids
-            if i in par_id
+            if i in by_id
         ]
 
-    def fermer(self) -> None:
+    def close(self) -> None:
         self.conn.close()

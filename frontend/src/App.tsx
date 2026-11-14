@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { creerConversation, envoyerQuestion, ErreurApi, type ReponseAssistant } from "./api";
-import { BulleAssistant, BulleAttente, BulleClient } from "./Messages";
-import { PanneauSource } from "./PanneauSource";
+import { ApiError, createConversation, sendQuestion, type AssistantReply } from "./api";
+import { AssistantBubble, PendingBubble, UserBubble } from "./Messages";
+import { SourcePanel } from "./SourcePanel";
 
-const LONGUEUR_MAX = 2000;
+const MAX_MESSAGE_LENGTH = 2000;
 const SUGGESTIONS = [
   "Livrez-vous en Belgique, et à partir de quel montant est-ce gratuit ?",
   "Le Ryzen 7 7800X3D est-il en stock ?",
@@ -11,91 +11,91 @@ const SUGGESTIONS = [
   "Où en est ma commande ?",
 ];
 
-type Echange =
-  | { role: "client"; texte: string }
-  | { role: "assistant"; reponse: ReponseAssistant }
-  | { role: "erreur"; texte: string };
+type Exchange =
+  | { role: "user"; text: string }
+  | { role: "assistant"; reply: AssistantReply }
+  | { role: "error"; text: string };
 
 export default function App() {
   const [conversationId, setConversationId] = useState<string | null>(null);
-  const [echanges, setEchanges] = useState<Echange[]>([]);
-  const [saisie, setSaisie] = useState("");
-  const [etapes, setEtapes] = useState<string[] | null>(null); // non nul = réponse en cours
-  const [sourceOuverte, setSourceOuverte] = useState<string | null>(null);
-  const finRef = useRef<HTMLDivElement>(null);
-  const saisieRef = useRef<HTMLTextAreaElement>(null);
+  const [exchanges, setExchanges] = useState<Exchange[]>([]);
+  const [draft, setDraft] = useState("");
+  const [steps, setSteps] = useState<string[] | null>(null); // non nul = réponse en cours
+  const [openSourceId, setOpenSourceId] = useState<string | null>(null);
+  const endRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const demarrer = useCallback(async () => {
-    setEchanges([]);
-    setSourceOuverte(null);
+  const startConversation = useCallback(async () => {
+    setExchanges([]);
+    setOpenSourceId(null);
     try {
-      setConversationId(await creerConversation());
+      setConversationId(await createConversation());
     } catch (e) {
-      setEchanges([{ role: "erreur", texte: (e as Error).message }]);
+      setExchanges([{ role: "error", text: (e as Error).message }]);
     }
-    saisieRef.current?.focus();
+    inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
-    demarrer();
-  }, [demarrer]);
+    startConversation();
+  }, [startConversation]);
 
   useEffect(() => {
-    finRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [echanges, etapes]);
+    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [exchanges, steps]);
 
-  async function envoyer(question: string) {
+  async function submit(question: string) {
     question = question.trim();
-    if (!question || etapes !== null || !conversationId) return;
-    setSaisie("");
-    setEchanges((e) => [...e, { role: "client", texte: question }]);
-    setEtapes([]);
+    if (!question || steps !== null || !conversationId) return;
+    setDraft("");
+    setExchanges((ex) => [...ex, { role: "user", text: question }]);
+    setSteps([]);
     try {
       let id = conversationId;
-      let reponse: ReponseAssistant;
-      const surEtape = (libelle: string) =>
-        setEtapes((et) => (et && et.at(-1) === libelle ? et : [...(et ?? []), libelle]));
+      let reply: AssistantReply;
+      const onStep = (label: string) =>
+        setSteps((current) => (current && current.at(-1) === label ? current : [...(current ?? []), label]));
       try {
-        reponse = await envoyerQuestion(id, question, surEtape);
+        reply = await sendQuestion(id, question, onStep);
       } catch (e) {
         // Conversation expirée côté serveur : on en ouvre une nouvelle et on renvoie la question.
-        if (!(e instanceof ErreurApi && e.statut === 404)) throw e;
-        id = await creerConversation();
+        if (!(e instanceof ApiError && e.status === 404)) throw e;
+        id = await createConversation();
         setConversationId(id);
-        reponse = await envoyerQuestion(id, question, surEtape);
+        reply = await sendQuestion(id, question, onStep);
       }
-      setEchanges((e) => [...e, { role: "assistant", reponse }]);
+      setExchanges((ex) => [...ex, { role: "assistant", reply }]);
     } catch (e) {
-      setEchanges((ech) => [...ech, { role: "erreur", texte: (e as Error).message }]);
+      setExchanges((ex) => [...ex, { role: "error", text: (e as Error).message }]);
     } finally {
-      setEtapes(null);
-      saisieRef.current?.focus();
+      setSteps(null);
+      inputRef.current?.focus();
     }
   }
 
-  const enCours = etapes !== null;
-  const trop = saisie.length > LONGUEUR_MAX;
+  const isPending = steps !== null;
+  const isTooLong = draft.length > MAX_MESSAGE_LENGTH;
 
   return (
     <div className="app">
-      <header className="entete">
-        <div className="marque">
+      <header className="header">
+        <div className="brand">
           <span className="logo" aria-hidden="true">N</span>
           <div>
             <h1>NovaTech Assist</h1>
             <p>Service client · réponses issues de notre documentation</p>
           </div>
         </div>
-        <button className="bouton-secondaire" onClick={demarrer} disabled={enCours}>
-          <span className="libelle-long">Nouvelle conversation</span>
-          <span className="libelle-court">Nouvelle</span>
+        <button className="button-secondary" onClick={startConversation} disabled={isPending}>
+          <span className="label-long">Nouvelle conversation</span>
+          <span className="label-short">Nouvelle</span>
         </button>
       </header>
 
-      <main className="fil" aria-live="polite">
-        <div className="colonne">
-          {echanges.length === 0 && (
-            <section className="accueil">
+      <main className="thread" aria-live="polite">
+        <div className="column">
+          {exchanges.length === 0 && (
+            <section className="welcome">
               <h2>Bonjour, comment puis-je vous aider ?</h2>
               <p>
                 Livraison, retours, garantie, choix d'un produit, compatibilité, dépannage ou suivi
@@ -103,7 +103,7 @@ export default function App() {
               </p>
               <div className="suggestions">
                 {SUGGESTIONS.map((s) => (
-                  <button key={s} onClick={() => envoyer(s)} disabled={!conversationId}>
+                  <button key={s} onClick={() => submit(s)} disabled={!conversationId}>
                     {s}
                   </button>
                 ))}
@@ -111,38 +111,38 @@ export default function App() {
             </section>
           )}
 
-          {echanges.map((e, i) =>
-            e.role === "client" ? (
-              <BulleClient key={i} texte={e.texte} />
-            ) : e.role === "assistant" ? (
-              <BulleAssistant key={i} reponse={e.reponse} ouvrirSource={setSourceOuverte} />
+          {exchanges.map((ex, i) =>
+            ex.role === "user" ? (
+              <UserBubble key={i} text={ex.text} />
+            ) : ex.role === "assistant" ? (
+              <AssistantBubble key={i} reply={ex.reply} onOpenSource={setOpenSourceId} />
             ) : (
-              <div key={i} className="bulle-erreur" role="alert">
-                {e.texte}
+              <div key={i} className="bubble-error" role="alert">
+                {ex.text}
               </div>
             ),
           )}
-          {enCours && <BulleAttente etapes={etapes} />}
-          <div ref={finRef} />
+          {isPending && <PendingBubble steps={steps} />}
+          <div ref={endRef} />
         </div>
       </main>
 
-      <footer className="pied">
+      <footer className="footer">
         <form
-          className="colonne zone-saisie"
+          className="column composer"
           onSubmit={(ev) => {
             ev.preventDefault();
-            if (!trop) envoyer(saisie);
+            if (!isTooLong) submit(draft);
           }}
         >
           <textarea
-            ref={saisieRef}
-            value={saisie}
-            onChange={(ev) => setSaisie(ev.target.value)}
+            ref={inputRef}
+            value={draft}
+            onChange={(ev) => setDraft(ev.target.value)}
             onKeyDown={(ev) => {
               if (ev.key === "Enter" && !ev.shiftKey) {
                 ev.preventDefault();
-                if (!trop) envoyer(saisie);
+                if (!isTooLong) submit(draft);
               }
             }}
             placeholder="Écrivez votre message…"
@@ -150,20 +150,18 @@ export default function App() {
             aria-label="Votre message"
             disabled={!conversationId}
           />
-          <button type="submit" className="bouton-envoyer" disabled={enCours || !saisie.trim() || trop}>
+          <button type="submit" className="button-send" disabled={isPending || !draft.trim() || isTooLong}>
             Envoyer
           </button>
         </form>
-        <p className="colonne mention">
-          {trop
-            ? `Message trop long (${saisie.length}/${LONGUEUR_MAX} caractères).`
+        <p className="column notice">
+          {isTooLong
+            ? `Message trop long (${draft.length}/${MAX_MESSAGE_LENGTH} caractères).`
             : "Assistant IA : ne communiquez jamais vos coordonnées bancaires ni vos mots de passe."}
         </p>
       </footer>
 
-      {sourceOuverte && (
-        <PanneauSource id={sourceOuverte} fermer={() => setSourceOuverte(null)} />
-      )}
+      {openSourceId && <SourcePanel id={openSourceId} onClose={() => setOpenSourceId(null)} />}
     </div>
   );
 }

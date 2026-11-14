@@ -12,4 +12,4 @@ frontend/dist/
 .claude/hillclimb/**/report.html
 .claude/hillclimb/**/state.json
 .claude/hillclimb/**/trajectory/
-.claude/hillclimb/**/results.avant_renotation_*.jsonl
+.claude/hillclimb/**/results.before_regrade_*.jsonl

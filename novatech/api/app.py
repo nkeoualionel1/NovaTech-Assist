@@ -4,9 +4,9 @@ Lancement : uvicorn novatech.api.app:app --port 8000
 Documentation interactive : http://localhost:8000/docs
 
 Une réponse est envoyée en flux (Server-Sent Events) :
-    event: outil     {"nom": "verifier_stock", "libelle": "Vérification du stock…"}   (0 à n fois)
-    event: reponse   {"texte": "...", "sources": [...], ...}                            (1 fois)
-    event: erreur    {"message": "..."}                                                 (en cas d'échec)
+    event: tool    {"name": "check_stock", "label": "Vérification du stock…"}   (0 à n fois)
+    event: reply   {"text": "...", "sources": [...], ...}                          (1 fois)
+    event: error   {"message": "..."}                                              (en cas d'échec)
 Le texte arrive en une fois : les garde-fous de sortie doivent voir la réponse complète
 avant qu'elle ne soit affichée.
 """
@@ -24,180 +24,180 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .. import garde_fous as gf
-from ..assistant import Assistant, Conversation, Reponse
-from ..garde_fous.filtres import LIGNE_SOURCES
-from ..garde_fous.limites import Limiteur
+from .. import guardrails
+from ..assistant import Assistant, Conversation, Reply
+from ..guardrails.filters import SOURCES_LINE_RE
+from ..guardrails.rate_limit import RateLimiter
 
-LIBELLES_OUTILS = {
-    "rechercher_informations": "Recherche dans la documentation…",
-    "verifier_stock": "Vérification du stock…",
-    "suivi_commande": "Consultation de votre commande…",
-    "transferer_conseiller": "Transmission à un conseiller…",
+# Libellés affichés dans l'interface pendant que Claude utilise un outil.
+TOOL_LABELS = {
+    "search_knowledge_base": "Recherche dans la documentation…",
+    "check_stock": "Vérification du stock…",
+    "track_order": "Consultation de votre commande…",
+    "transfer_to_agent": "Transmission à un conseiller…",
 }
-DUREE_VIE_CONVERSATION_S = 3600
+CONVERSATION_TTL_S = 3600
 MAX_CONVERSATIONS = 1000
-MESSAGES_PAR_MINUTE_PAR_IP = 10
-DOSSIER_FRONTEND = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+MESSAGES_PER_MINUTE_PER_IP = 10
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
 
-class Etat:
+class AppState:
     """Ressources partagées, créées une seule fois au démarrage."""
 
     assistant: Assistant
     conversations: dict[str, tuple[Conversation, float]] = {}
-    verrou = threading.Lock()
-    limite_messages = Limiteur(MESSAGES_PAR_MINUTE_PAR_IP, 60)
+    lock = threading.Lock()
+    message_limiter = RateLimiter(MESSAGES_PER_MINUTE_PER_IP, 60)
 
 
 @asynccontextmanager
-async def cycle_de_vie(app: FastAPI):
-    Etat.assistant = Assistant()
-    Etat.assistant.recherche.embedder.model  # charge le modèle maintenant, pas à la 1re question
+async def lifespan(app: FastAPI):
+    AppState.assistant = Assistant()
+    AppState.assistant.retriever.embedder.model  # charge le modèle maintenant, pas à la 1re question
     yield
-    Etat.assistant.recherche.fermer()
+    AppState.assistant.retriever.close()
 
 
-app = FastAPI(title="NovaTech Assist", version="0.7.0", lifespan=cycle_de_vie)
+app = FastAPI(title="NovaTech Assist", version="0.8.0", lifespan=lifespan)
 
 
 # --- Modèles de requête / réponse -----------------------------------------------------
 
-class NouvelleConversation(BaseModel):
+class ConversationCreated(BaseModel):
     id: str
 
 
-class Message(BaseModel):
+class MessageIn(BaseModel):
     # Limite large ici (protège le serveur) ; l'agent répond poliment au-delà de 2 000 caractères.
-    question: str = Field(min_length=1, max_length=10 * gf.LONGUEUR_MAX_MESSAGE)
+    question: str = Field(min_length=1, max_length=10 * guardrails.MAX_MESSAGE_LENGTH)
 
 
 # --- Conversations ---------------------------------------------------------------------
 
-def _ip(request: Request) -> str:
-    return request.client.host if request.client else "inconnue"
+def _client_ip(request: Request) -> str:
+    return request.client.host if request.client else "unknown"
 
 
-def _purger_conversations() -> None:
-    limite = time.monotonic() - DUREE_VIE_CONVERSATION_S
-    for cle in [c for c, (_, vu) in Etat.conversations.items() if vu < limite]:
-        del Etat.conversations[cle]
+def _prune_conversations() -> None:
+    cutoff = time.monotonic() - CONVERSATION_TTL_S
+    for key in [k for k, (_, last_seen) in AppState.conversations.items() if last_seen < cutoff]:
+        del AppState.conversations[key]
 
 
-@app.post("/api/conversations", response_model=NouvelleConversation)
-def creer_conversation(request: Request) -> NouvelleConversation:
-    with Etat.verrou:
-        _purger_conversations()
-        if len(Etat.conversations) >= MAX_CONVERSATIONS:
+@app.post("/api/conversations", response_model=ConversationCreated)
+def create_conversation(request: Request) -> ConversationCreated:
+    with AppState.lock:
+        _prune_conversations()
+        if len(AppState.conversations) >= MAX_CONVERSATIONS:
             raise HTTPException(503, "Service saturé, réessayez dans quelques minutes.")
-        conversation = Etat.assistant.nouvelle_conversation(cle_client=_ip(request))
-        Etat.conversations[conversation.id] = (conversation, time.monotonic())
-    return NouvelleConversation(id=conversation.id)
+        conversation = AppState.assistant.new_conversation(client_key=_client_ip(request))
+        AppState.conversations[conversation.id] = (conversation, time.monotonic())
+    return ConversationCreated(id=conversation.id)
 
 
 @app.post("/api/conversations/{conversation_id}/messages")
-def envoyer_message(conversation_id: str, message: Message, request: Request) -> StreamingResponse:
-    with Etat.verrou:
-        entree = Etat.conversations.get(conversation_id)
-        if entree is None:
+def post_message(conversation_id: str, message: MessageIn, request: Request) -> StreamingResponse:
+    with AppState.lock:
+        entry = AppState.conversations.get(conversation_id)
+        if entry is None:
             raise HTTPException(404, "Conversation inconnue ou expirée.")
-        conversation = entree[0]
-        Etat.conversations[conversation_id] = (conversation, time.monotonic())
-    if not Etat.limite_messages.consommer(_ip(request)):
+        conversation = entry[0]
+        AppState.conversations[conversation_id] = (conversation, time.monotonic())
+    if not AppState.message_limiter.try_acquire(_client_ip(request)):
         raise HTTPException(429, "Trop de messages envoyés. Patientez une minute.")
 
     return StreamingResponse(
-        _flux_reponse(conversation, message.question),
+        _stream_reply(conversation, message.question),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
 
 
-def _flux_reponse(conversation: Conversation, question: str):
+def _stream_reply(conversation: Conversation, question: str):
     """L'agent tourne dans un thread ; ses événements sont relayés au navigateur au fil de l'eau."""
-    file: queue.Queue = queue.Queue()
+    events: queue.Queue = queue.Queue()
 
-    def travailler():
+    def worker():
         try:
-            reponse = conversation.envoyer(question, on_evenement=file.put)
-            file.put({"type": "reponse", **_serialiser(reponse)})
+            reply = conversation.send(question, on_event=events.put)
+            events.put({"type": "reply", **_serialize_reply(reply)})
         except anthropic.APIStatusError as exc:
-            file.put({"type": "erreur", "message": _message_erreur_api(exc.status_code)})
+            events.put({"type": "error", "message": _api_error_message(exc.status_code)})
         except anthropic.APIConnectionError:
-            file.put({"type": "erreur", "message": "Service momentanément indisponible. Réessayez."})
+            events.put({"type": "error", "message": "Service momentanément indisponible. Réessayez."})
         except Exception:
-            file.put({"type": "erreur", "message": "Une erreur inattendue est survenue."})
+            events.put({"type": "error", "message": "Une erreur inattendue est survenue."})
             raise
 
-    threading.Thread(target=travailler, daemon=True).start()
+    threading.Thread(target=worker, daemon=True).start()
     while True:
-        evenement = file.get()
-        type_ = evenement.pop("type")
-        if type_ == "outil":
-            evenement["libelle"] = LIBELLES_OUTILS.get(evenement["nom"], "Recherche…")
-        yield f"event: {type_}\ndata: {json.dumps(evenement, ensure_ascii=False)}\n\n"
-        if type_ in ("reponse", "erreur"):
+        event = events.get()
+        event_type = event.pop("type")
+        if event_type == "tool":
+            event["label"] = TOOL_LABELS.get(event["name"], "Recherche…")
+        yield f"event: {event_type}\ndata: {json.dumps(event, ensure_ascii=False)}\n\n"
+        if event_type in ("reply", "error"):
             break
 
 
-def _message_erreur_api(statut: int) -> str:
-    if statut == 429:
+def _api_error_message(status_code: int) -> str:
+    if status_code == 429:
         return "L'assistant est très sollicité. Réessayez dans un instant."
-    if statut >= 500:
+    if status_code >= 500:
         return "Le service est momentanément indisponible. Réessayez dans un instant."
     return "Votre demande n'a pas pu être traitée."
 
 
-def _serialiser(reponse: Reponse) -> dict:
+def _serialize_reply(reply: Reply) -> dict:
     """Prépare la réponse pour l'affichage : la ligne « Sources » devient des liens."""
     passages = {}
-    for appel in reponse.appels:
-        if appel.nom == "rechercher_informations" and not appel.erreur:
-            for p in appel.resultat["passages"]:
-                passages.setdefault(p["source"], p)
+    for call in reply.tool_calls:
+        if call.name == "search_knowledge_base" and not call.is_error:
+            for passage in call.result["passages"]:
+                passages.setdefault(passage["source"], passage)
     sources = [
-        {"id": s, "titre": passages[s]["titre"],
-         "type": "produit" if s.startswith("NT-") else "document"}
-        for s in reponse.sources if s in passages
+        {"id": s, "title": passages[s]["title"],
+         "type": "product" if s.startswith("NT-") else "document"}
+        for s in reply.sources if s in passages
     ]
-    texte = LIGNE_SOURCES.sub("", reponse.texte).rstrip()
+    text = SOURCES_LINE_RE.sub("", reply.text).rstrip()
     return {
-        "texte": texte,
+        "text": text,
         "sources": sources,
-        "outils": [a.nom for a in reponse.appels],
-        "transfert": next((a.resultat for a in reponse.appels
-                           if a.nom == "transferer_conseiller" and not a.erreur), None),
+        "tools": [call.name for call in reply.tool_calls],
+        "handoff": next((call.result for call in reply.tool_calls
+                         if call.name == "transfer_to_agent" and not call.is_error), None),
     }
 
 
 # --- Sources ---------------------------------------------------------------------------------
 
 @app.get("/api/sources/{source_id}")
-def lire_source(source_id: str) -> dict:
+def get_source(source_id: str) -> dict:
     """Contenu d'un document ou d'une fiche produit cité, pour l'afficher au client."""
-    lignes = Etat.assistant.recherche.conn.execute(
-        "SELECT titre, section, contenu, source_type FROM chunks WHERE source_id = %s ORDER BY id",
+    rows = AppState.assistant.retriever.conn.execute(
+        "SELECT title, section, content, source_type FROM chunks WHERE source_id = %s ORDER BY id",
         [source_id],
     ).fetchall()
-    if not lignes:
+    if not rows:
         raise HTTPException(404, "Source inconnue.")
-    morceaux = [f"## {section}\n\n{contenu}" if section else contenu
-                for _, section, contenu, _ in lignes]
-    return {"id": source_id, "titre": lignes[0][0], "type": lignes[0][3],
-            "contenu": "\n\n".join(morceaux)}
+    pieces = [f"## {section}\n\n{content}" if section else content
+              for _, section, content, _ in rows]
+    return {"id": source_id, "title": rows[0][0], "type": rows[0][3], "content": "\n\n".join(pieces)}
 
 
-@app.get("/api/sante")
-def sante() -> dict:
-    Etat.assistant.recherche.conn.execute("SELECT 1")
-    return {"statut": "ok", "modele": Etat.assistant.settings.claude_model}
+@app.get("/api/health")
+def health() -> dict:
+    AppState.assistant.retriever.conn.execute("SELECT 1")
+    return {"status": "ok", "model": AppState.assistant.settings.claude_model}
 
 
 # --- Interface (version construite par « npm run build ») ---------------------------------
 
-if DOSSIER_FRONTEND.exists():
-    app.mount("/assets", StaticFiles(directory=DOSSIER_FRONTEND / "assets"), name="assets")
+if FRONTEND_DIR.exists():
+    app.mount("/assets", StaticFiles(directory=FRONTEND_DIR / "assets"), name="assets")
 
     @app.get("/", include_in_schema=False)
-    def accueil() -> FileResponse:
-        return FileResponse(DOSSIER_FRONTEND / "index.html")
+    def index() -> FileResponse:
+        return FileResponse(FRONTEND_DIR / "index.html")

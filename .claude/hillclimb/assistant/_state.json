@@ -2,12 +2,12 @@
   "flow": "assistant",
   "description": "NovaTech Assist : 40 questions du jeu de test, notées par contrôles automatiques et un juge Claude Opus 5.5.",
   "metrics": [
-    {"id": "reussite", "label": "Réussite", "kind": "binary"},
-    {"id": "couverture", "label": "Couverture", "kind": "float", "scale": 1},
-    {"id": "fidelite", "label": "Fidélité", "kind": "binary"},
-    {"id": "outil_ok", "label": "Bon outil", "kind": "binary"},
+    {"id": "success", "label": "Réussite", "kind": "binary"},
+    {"id": "coverage", "label": "Couverture", "kind": "float", "scale": 1},
+    {"id": "faithfulness", "label": "Fidélité", "kind": "binary"},
+    {"id": "tool_ok", "label": "Bon outil", "kind": "binary"},
     {"id": "source_ok", "label": "Bonne source", "kind": "binary"},
-    {"id": "sans_interdit", "label": "Sans interdit", "kind": "binary"}
+    {"id": "no_forbidden", "label": "Sans interdit", "kind": "binary"}
   ],
   "perf_fields": [
     {"id": "latency_s", "label": "Latence", "unit": "s"},
@@ -21,7 +21,7 @@
   },
   "harness_paths": [
     "novatech/evaluation/__main__.py",
-    "novatech/evaluation/notation.py",
+    "novatech/evaluation/grading.py",
     "Dataset/evaluation/selection_40.json",
     "Dataset/evaluation/questions_test.json"
   ]
